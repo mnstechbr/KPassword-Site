@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Callout from '../components/Callout.astro';
+---
+<BaseLayout title="Termos e Privacidade" description="Termos e privacidade iniciais do KPassword, com foco em uso local/offline e transparência sobre dados.">
+  <PageHero eyebrow="Termos e Privacidade" title="Uso local, responsabilidades claras." text="Esta é uma base inicial para comunicar como o KPassword funciona e quais cuidados cabem ao usuário. Revise antes de publicar oficialmente." />
+
+  <section class="page-section two-column">
+    <div class="panel">
+      <h2>Privacidade do app</h2>
+      <p>
+        O KPassword foi criado para uso local/offline no Windows, sem conta obrigatória e sem nuvem obrigatória. O cofre do usuário permanece no dispositivo e backups criptografados são controlados pelo próprio usuário.
+      </p>
+      <p>
+        Se no futuro forem adicionados recursos como sincronização, telemetria, conta online ou pagamentos, esta política deverá ser atualizada antes da publicação desses recursos.
+      </p>
+    </div>
+    <div class="panel">
+      <h2>Privacidade do site</h2>
+      <p>
+        Este site é estático e não possui login por padrão. A hospedagem pode registrar informações técnicas comuns, como IP, data, horário, navegador e páginas acessadas, conforme a infraestrutura usada.
+      </p>
+      <p>
+        Caso você adicione analytics, formulários ou cookies, informe isso claramente nesta página.
+      </p>
+    </div>
+  </section>
+
+  <section class="page-section doc-grid">
+    <article class="doc-panel">
+      <h2>Responsabilidades do usuário</h2>
+      <ul>
+        <li>Criar e preservar uma senha mestra forte.</li>
+        <li>Manter o Windows atualizado.</li>
+        <li>Baixar o instalador por fontes oficiais.</li>
+        <li>Guardar backups criptografados em local confiável.</li>
+      </ul>
+    </article>
+    <article class="doc-panel">
+      <h2>Limites</h2>
+      <ul>
+        <li>O app não recupera senha mestra esquecida por servidor remoto.</li>
+        <li>Malware no computador pode afetar qualquer aplicativo local.</li>
+        <li>Perda do dispositivo sem backup pode causar perda de acesso aos dados.</li>
+        <li>Atualizações devem ser feitas por canais oficiais.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="page-section">
+    <Callout tone="warn">
+      <p>Este texto é uma base operacional, não aconselhamento jurídico. Ajuste conforme sua hospedagem, distribuição, jurisdição e recursos realmente oferecidos.</p>
+    </Callout>
+  </section>
+</BaseLayout>

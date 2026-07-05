@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Callout from '../components/Callout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="Política de segurança" description="Política de segurança do KPassword, incluindo como reportar vulnerabilidades e quais versões recebem correções.">
+  <PageHero eyebrow="Política de segurança" title="Como reportar problemas com responsabilidade." text="Se você encontrou uma falha de segurança no KPassword, envie detalhes de forma privada para que o problema possa ser analisado antes de divulgação pública." />
+
+  <section class="page-section two-column">
+    <div class="panel">
+      <h2>Contato</h2>
+      <p>
+        Envie relatos para <a href={`mailto:${site.securityEmail}`}>{site.securityEmail}</a>. Inclua versão do app, Windows usado, passos para reproduzir e impacto observado.
+      </p>
+      <Callout tone="warn">
+        <p>Troque este e-mail pelo contato oficial antes de publicar o site.</p>
+      </Callout>
+    </div>
+    <div class="panel">
+      <h2>Escopo inicial</h2>
+      <ul>
+        <li>KPassword para Windows.</li>
+        <li>Instalador e updater assinados.</li>
+        <li>Criptografia do cofre local.</li>
+        <li>Backups criptografados e fluxo de migração.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="page-section doc-grid">
+    <article class="doc-panel">
+      <h2>O que enviar</h2>
+      <ul>
+        <li>Descrição objetiva do problema.</li>
+        <li>Passos mínimos para reprodução.</li>
+        <li>Arquivos de exemplo sem dados reais, quando possível.</li>
+        <li>Logs relevantes, removendo informações sensíveis.</li>
+      </ul>
+    </article>
+    <article class="doc-panel">
+      <h2>O que evitar</h2>
+      <ul>
+        <li>Publicar exploração antes de contato privado.</li>
+        <li>Enviar cofres reais com senhas pessoais.</li>
+        <li>Testar em sistemas de terceiros sem permissão.</li>
+        <li>Usar vulnerabilidades para acessar dados de outras pessoas.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="page-section two-column">
+    <div class="panel">
+      <h2>Versões suportadas</h2>
+      <p>
+        A versão atual é {site.version}. O site deve informar claramente quais versões recebem correções de segurança quando o projeto tiver política formal de suporte.
+      </p>
+    </div>
+    <div class="panel">
+      <h2>Divulgação</h2>
+      <p>
+        Quando uma correção estiver disponível, o changelog deve explicar o impacto em linguagem prática, sem expor detalhes desnecessários que aumentem risco para usuários que ainda não atualizaram.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

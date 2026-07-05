@@ -1,0 +1,16 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div>
+    <strong>{site.name}</strong>
+    <p>Gerenciador de senhas local/offline para Windows.</p>
+  </div>
+  <div class="footer-links">
+    <a href="/politica-de-seguranca/">Política de segurança</a>
+    <a href="/termos-e-privacidade/">Termos e Privacidade</a>
+    <a href={site.repositoryUrl}>Repositório</a>
+  </div>
+  <p class="fineprint">© {year} KPassword. Segurança é uma prática contínua, não um slogan.</p>
+</footer>

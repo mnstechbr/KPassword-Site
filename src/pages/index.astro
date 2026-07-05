@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CardGrid from '../components/CardGrid.astro';
+import Callout from '../components/Callout.astro';
+import { site, securityPillars } from '../data/site';
+---
+<BaseLayout title="Home" description={site.description}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{site.version} para Windows</p>
+      <h1>Senhas protegidas no seu Windows, sem nuvem obrigatória.</h1>
+      <p class="lead">
+        KPassword é um gerenciador de senhas local/offline feito com Tauri, React e Rust. Ele foi pensado para quem quer controle do próprio cofre, backup criptografado e uma experiência simples, sem conta obrigatória.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/download/">Baixar para Windows</a>
+        <a class="button button-secondary" href="/seguranca/">Entender a segurança</a>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-label="Resumo visual do cofre KPassword">
+      <div class="vault-window">
+        <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="vault-body">
+          <div class="status-line"><span>Cofre local</span><strong>bloqueado</strong></div>
+          <div class="fake-list">
+            <div class="fake-row"><div><strong>Banco</strong><br /><span>••••••••••••••••</span></div><span class="pill">AES-256-GCM</span></div>
+            <div class="fake-row"><div><strong>E-mail</strong><br /><span>••••••••••••••••</span></div><span class="pill">Argon2id</span></div>
+            <div class="fake-row"><div><strong>Backup</strong><br /><span>criptografado</span></div><span class="pill">AAD</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip" aria-label="Resumo de confiança">
+    <div class="trust-item"><strong>Local/offline</strong><br /><span>Sem conta e sem nuvem obrigatória.</span></div>
+    <div class="trust-item"><strong>Criptografia moderna</strong><br /><span>Argon2id, AES-256-GCM e AAD.</span></div>
+    <div class="trust-item"><strong>Backup protegido</strong><br /><span>Backups criptografados e pré-migração.</span></div>
+    <div class="trust-item"><strong>Distribuição cuidada</strong><br /><span>Updater assinado e documentação clara.</span></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Filosofia</p>
+      <h2>Segurança sem teatro de néon.</h2>
+      <p>
+        O KPassword evita promessas impossíveis. Ele combina boas práticas, escolhas criptográficas modernas e documentação honesta para reduzir riscos no uso diário.
+      </p>
+    </div>
+    <CardGrid items={securityPillars} />
+  </section>
+
+  <section class="section two-column">
+    <div class="panel">
+      <p class="eyebrow">Controle local</p>
+      <h2>O cofre fica com você.</h2>
+      <p>
+        O app foi criado para funcionar no Windows sem depender de uma conta online. Isso simplifica o modelo de privacidade e reduz a superfície ligada a sincronização remota.
+      </p>
+      <Callout tone="success">
+        <p>Boa segurança também depende da sua senha mestra, do estado do computador e de backups guardados com cuidado.</p>
+      </Callout>
+    </div>
+    <div class="panel">
+      <h2>O que o site precisa deixar cristalino</h2>
+      <ul class="notice-list">
+        <li>O KPassword não promete proteção absoluta.</li>
+        <li>O usuário deve manter o Windows atualizado e protegido.</li>
+        <li>A senha mestra não deve ser esquecida, pois ela protege o cofre.</li>
+        <li>Backups criptografados devem ser guardados em local confiável.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="download-panel">
+      <p class="eyebrow">Comece</p>
+      <h2>Baixe, teste e leia o modelo de segurança antes de usar dados importantes.</h2>
+      <p>
+        A página de download tem espaço para o instalador, SHA-256 e notas da versão. Pequeno ritual de confiança, nada de fumaça colorida no porão.
+      </p>
+      <div class="action-row">
+        <a class="button button-primary" href="/download/">Ir para Download</a>
+        <a class="button" href="/documentacao/">Ler documentação</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { changelog } from '../data/site';
+---
+<BaseLayout title="Changelog" description="Histórico de versões do KPassword, com foco em segurança, backup, migração e distribuição.">
+  <PageHero eyebrow="Changelog" title="O que mudou no KPassword." text="Registro claro das versões para que usuários entendam mudanças de segurança, backup, migração e interface antes de atualizar." />
+
+  <section class="timeline">
+    {changelog.map((release) => (
+      <article class="timeline-item">
+        <div class="timeline-top">
+          <div>
+            <strong>{release.version}</strong>
+            <h2>{release.title}</h2>
+          </div>
+          <time datetime={release.date}>{release.date}</time>
+        </div>
+        <ul>
+          {release.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

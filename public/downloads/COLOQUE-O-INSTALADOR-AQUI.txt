@@ -1,0 +1,6 @@
+Coloque aqui o instalador oficial antes de publicar o site.
+
+Nome esperado pelo botão de download:
+KPassword-Setup-v0.9.3.exe
+
+Depois, atualize o SHA-256 em src/data/site.ts.

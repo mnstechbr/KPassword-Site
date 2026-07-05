@@ -1,0 +1,18 @@
+---
+import { navItems, site } from '../data/site';
+const currentPath = Astro.url.pathname;
+---
+<header class="header">
+  <a class="brand" href="/" aria-label="KPassword Home">
+    <img src="/kpassword-mark.svg" alt="" width="32" height="32" />
+    <span>{site.name}</span>
+  </a>
+  <nav class="nav" aria-label="Navegação principal">
+    {navItems.map((item) => (
+      <a href={item.href} class:list={[{ active: currentPath === item.href }, 'nav-link']}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+  <a class="header-cta" href="/download/">Baixar</a>
+</header>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Callout from '../components/Callout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="Download" description="Baixe a versão atual do KPassword para Windows e confira instruções de verificação do instalador.">
+  <PageHero eyebrow="Download" title="Baixe o KPassword para Windows." text="Use esta página para publicar o instalador oficial, informar a versão atual e orientar a verificação do arquivo baixado." />
+
+  <section class="download-layout">
+    <article class="download-panel version-card">
+      <p class="eyebrow">Versão atual</p>
+      <h2>{site.version}</h2>
+      <p>{site.tagline}</p>
+
+      <div class="meta-list">
+        <div class="meta-row"><span>Sistema</span><span>Windows</span></div>
+        <div class="meta-row"><span>Arquivo</span><span>{site.downloadFile}</span></div>
+        <div class="meta-row"><span>Modo de uso</span><span>Local/offline</span></div>
+        <div class="meta-row"><span>Conta obrigatória</span><span>Não</span></div>
+      </div>
+
+      <div class="action-row">
+        <a class="button button-primary" href={site.downloadPath} download>Baixar instalador</a>
+        <a class="button" href={site.releaseNotesUrl}>Ver release</a>
+      </div>
+
+      <Callout tone="warn">
+        <p>Antes de publicar, coloque o instalador real em <code>public/downloads/</code> e atualize o SHA-256 no arquivo <code>src/data/site.ts</code>.</p>
+      </Callout>
+    </article>
+
+    <aside class="download-panel">
+      <h2>Verifique o arquivo</h2>
+      <p>Depois de baixar, compare o hash SHA-256 do instalador com o valor publicado nesta página.</p>
+      {site.installerSha256 ? (
+        <pre><code>{site.installerSha256}</code></pre>
+      ) : (
+        <Callout tone="warn"><p>SHA-256 ainda não publicado. Gere o hash do instalador final antes do release.</p></Callout>
+      )}
+      <p>No PowerShell:</p>
+      <pre><code>{`Get-FileHash .\\${site.downloadFile} -Algorithm SHA256`}</code></pre>
+    </aside>
+  </section>
+
+  <section class="page-section two-column">
+    <div class="panel">
+      <h2>Instalação</h2>
+      <ul>
+        <li>Baixe o instalador oficial desta página.</li>
+        <li>Verifique o SHA-256, quando publicado.</li>
+        <li>Execute o instalador no Windows.</li>
+        <li>Abra o KPassword e crie seu cofre local com uma senha mestra forte.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Atualização</h2>
+      <p>
+        O app usa updater assinado. Mesmo assim, mantenha backups criptografados e leia o changelog antes de atualizar versões sensíveis.
+      </p>
+      <a class="button" href="/changelog/">Ver changelog</a>
+    </div>
+  </section>
+</BaseLayout>
