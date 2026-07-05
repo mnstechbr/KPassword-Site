@@ -1,18 +1,60 @@
 ---
-import { navItems, site } from '../data/site';
-const currentPath = Astro.url.pathname;
+import { pathTo } from '@/utils/paths';
+import { product } from '@/data/site';
+import { content, getPath, locales, pageKeys, type Locale, type PageKey } from '@/data/i18n';
+
+interface Props {
+  locale?: Locale;
+  pageKey?: PageKey;
+}
+
+const locale = Astro.props.locale || 'pt';
+const pageKey = Astro.props.pageKey || 'home';
+const t = content[locale];
+
+const nav = [
+  { key: 'home', label: t.nav.home },
+  { key: 'download', label: t.nav.download },
+  { key: 'security', label: t.nav.security },
+  { key: 'changelog', label: t.nav.changelog }
+] as const;
+
+const localeOptions = Object.values(locales).map((item) => {
+  const code = item.code as Locale;
+  const safePage = pageKeys.includes(pageKey) ? pageKey : 'home';
+  return {
+    ...item,
+    href: pathTo(getPath(code, safePage))
+  };
+});
 ---
-<header class="header">
-  <a class="brand" href="/" aria-label="KPassword Home">
-    <img src="/kpassword-mark.svg" alt="" width="32" height="32" />
-    <span>{site.name}</span>
+
+<header class="site-header">
+  <a class="brand" href={pathTo(getPath(locale, 'home'))} aria-label={`${product.name} ${t.nav.home}`}>
+    <img class="brand-icon" src={pathTo('/brand/app-icon.png')} alt="" width="34" height="34" />
+    <span>{product.name}</span>
   </a>
-  <nav class="nav" aria-label="Navegação principal">
-    {navItems.map((item) => (
-      <a href={item.href} class:list={[{ active: currentPath === item.href }, 'nav-link']}>
-        {item.label}
-      </a>
-    ))}
+
+  <nav class="nav" aria-label={t.nav.home}>
+    {nav.map((item) => <a class:list={[item.key === pageKey && 'is-active']} href={pathTo(getPath(locale, item.key))}>{item.label}</a>)}
   </nav>
-  <a class="header-cta" href="/download/">Baixar</a>
+
+  <div class="header-actions">
+    <label class="sr-only" for="language-switcher">{t.language.label}</label>
+    <select id="language-switcher" class="language-select" aria-label={t.language.aria} data-language-switcher>
+      {localeOptions.map((item) => (
+        <option value={item.href} selected={item.code === locale}>{item.label}</option>
+      ))}
+    </select>
+    <a class="header-cta" href={pathTo(getPath(locale, 'download'))}>{t.header.cta}</a>
+  </div>
 </header>
+
+<script is:inline>
+  document.querySelectorAll('[data-language-switcher]').forEach((select) => {
+    select.addEventListener('change', (event) => {
+      const target = event.currentTarget;
+      if (target && target.value) window.location.href = target.value;
+    });
+  });
+</script>

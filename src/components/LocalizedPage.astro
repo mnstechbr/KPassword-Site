@@ -1,0 +1,410 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FeatureCard from '@/components/FeatureCard.astro';
+import PageTitle from '@/components/PageTitle.astro';
+import ReleaseBadge from '@/components/ReleaseBadge.astro';
+import releases from '@/data/releases.generated.json';
+import { contact, links, product, repo } from '@/data/site';
+import { content, getPath, locales, type Locale, type PageKey } from '@/data/i18n';
+import { pathTo } from '@/utils/paths';
+import { formatBytes, formatDate } from '@/utils/format';
+import { markdownToHtml } from '@/utils/markdown';
+
+interface Props {
+  locale?: Locale;
+  page: PageKey;
+}
+
+const locale = Astro.props.locale || 'pt';
+const page = Astro.props.page;
+const t = content[locale];
+const latest = releases.latestStable;
+const releaseUrl = repo.isConfigured ? (latest?.htmlUrl || links.latestRelease) : '';
+const releaseName = repo.isConfigured ? `${repo.owner}/${repo.name}` : t.download.repoMissing;
+const asset = latest?.asset;
+const fallbackDownloadUrl = repo.isConfigured ? (latest?.directDownloadUrl || links.latestRelease) : '';
+
+const meta = t[page] as { metaTitle?: string; metaDescription?: string };
+const pageTitle = meta.metaTitle || undefined;
+const pageDescription = meta.metaDescription || undefined;
+---
+
+<BaseLayout locale={locale} pageKey={page} title={pageTitle} description={pageDescription}>
+  {page === 'home' && (
+    <>
+      <section class="hero">
+        <div class="hero-copy">
+          <img class="hero-icon" src={pathTo('/brand/app-icon.png')} alt="Ícone do KPassword" width="76" height="76" />
+          <ReleaseBadge locale={locale} />
+          <p class="label">{t.home.label}</p>
+          <h1>{product.name}</h1>
+          <p class="lead">{t.home.lead}</p>
+          <p class="hero-text">{t.home.text}</p>
+          <div class="actions">
+            <a class="button primary" href={pathTo(getPath(locale, 'download'))}>{t.home.primary}</a>
+            <a class="button secondary" href={pathTo(getPath(locale, 'security'))}>{t.home.secondary}</a>
+          </div>
+          <p class="fineprint">{repo.isConfigured ? t.home.fineprintConfigured : t.home.fineprintPending}</p>
+        </div>
+
+        <div class="vault-card" aria-label={t.home.vaultAria}>
+          <div class="vault-top">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="vault-body">
+            <p>{t.home.vaultSmall}</p>
+            <h2>{t.home.vaultTitle}</h2>
+            <ul>
+              {t.home.vaultItems.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="section-heading">
+          <p class="label">{t.home.sectionLabel}</p>
+          <h2>{t.home.sectionTitle}</h2>
+        </div>
+        <div class="grid three">
+          {t.home.cards.map((card) => <FeatureCard title={card.title} text={card.text} />)}
+        </div>
+      </section>
+
+      <section class="section split-panel">
+        <div>
+          <p class="label">{t.home.transparencyLabel}</p>
+          <h2>{t.home.transparencyTitle}</h2>
+        </div>
+        <p>{t.home.transparencyText}</p>
+      </section>
+    </>
+  )}
+
+  {page === 'download' && (
+    <>
+      <PageTitle label={t.download.label} title={t.download.title} description={t.download.description} />
+
+      <section class="download-panel">
+        <div>
+          <p class="label">{t.download.detectedVersion}</p>
+          <h2>{latest?.tagName || product.currentVersion}</h2>
+          <p>{latest?.name || t.download.fallbackName}</p>
+          <dl class="meta-list">
+            <div><dt>{t.download.published}</dt><dd>{formatDate(latest?.publishedAt, locale)}</dd></div>
+            <div><dt>{t.download.shownInstaller}</dt><dd>{asset?.name || t.download.detectedOnClick}</dd></div>
+            <div><dt>{t.download.size}</dt><dd>{formatBytes(asset?.size, locale)}</dd></div>
+          </dl>
+        </div>
+
+        <div class="download-actions">
+          {repo.isConfigured ? (
+            <>
+              <a
+                class="button primary big"
+                href={fallbackDownloadUrl}
+                data-latest-kpassword-download
+                data-api={links.latestReleaseApi}
+                data-release={links.latestRelease}
+                data-preferred={product.releaseAssetName}
+                data-searching={t.download.client.searching}
+                data-found={t.download.client.found}
+                data-opening-release={t.download.client.openingRelease}
+                data-api-missing={t.download.client.apiMissing}
+                data-installer-missing={t.download.client.installerMissing}
+              >{t.download.downloadButton}</a>
+              <a class="button secondary" href={releaseUrl}>{t.download.viewRelease}</a>
+              <p class="fineprint" id="download-helper">{t.download.helper}</p>
+            </>
+          ) : (
+            <>
+              <span class="button primary big disabled">{t.download.disabled}</span>
+              <p class="fineprint">{t.download.disabledHelp}</p>
+            </>
+          )}
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="notice">
+          <strong>{t.download.howTitle}</strong>
+          <p>{t.download.howTextBefore} <code>{releaseName}</code>. {t.download.howTextAfter} <code>{product.releaseAssetName}</code> {t.download.howTextFinal} <code>KPassword-Setup-v0.9.3.exe</code>.</p>
+        </div>
+      </section>
+      <script is:inline>
+        (() => {
+          const link = document.querySelector('[data-latest-kpassword-download]');
+          const helper = document.querySelector('#download-helper');
+          if (!link) return;
+
+          const setText = (text) => {
+            link.textContent = text;
+            if (helper) helper.textContent = text;
+          };
+
+          const assetScore = (asset, preferred) => {
+            const name = String(asset?.name || '');
+            if (!name || !asset?.browser_download_url) return -1;
+            if (name === preferred) return 100;
+            if (/^KPassword-Setup-v?[0-9][0-9A-Za-z_.-]*\.exe$/i.test(name)) return 90;
+            if (/KPassword.*Setup.*\.exe$/i.test(name)) return 80;
+            if (/Setup.*KPassword.*\.exe$/i.test(name)) return 70;
+            if (/KPassword.*\.exe$/i.test(name)) return 60;
+            if (/\.exe$/i.test(name)) return 20;
+            return -1;
+          };
+
+          async function resolveLatestInstaller() {
+            const api = link.dataset.api;
+            const preferred = link.dataset.preferred || 'KPassword-Setup.exe';
+            if (!api) throw new Error(link.dataset.apiMissing || 'API ausente.');
+
+            const response = await fetch(api, {
+              headers: { Accept: 'application/vnd.github+json' }
+            });
+
+            if (!response.ok) {
+              throw new Error(`GitHub API ${response.status}`);
+            }
+
+            const release = await response.json();
+            const assets = Array.isArray(release.assets) ? release.assets : [];
+            const asset = assets
+              .map((item) => ({ item, score: assetScore(item, preferred) }))
+              .filter((entry) => entry.score >= 0)
+              .sort((a, b) => b.score - a.score)[0]?.item;
+
+            if (!asset?.browser_download_url) {
+              throw new Error(link.dataset.installerMissing || 'Instalador ausente.');
+            }
+
+            return asset.browser_download_url;
+          }
+
+          link.addEventListener('click', async (event) => {
+            event.preventDefault();
+            const releaseFallback = link.dataset.release || link.href;
+            const originalText = link.textContent;
+
+            link.classList.add('is-loading');
+            link.setAttribute('aria-busy', 'true');
+            setText(link.dataset.searching || originalText);
+
+            try {
+              const downloadUrl = await resolveLatestInstaller();
+              setText(link.dataset.found || originalText);
+              window.location.href = downloadUrl;
+            } catch (error) {
+              console.warn('[KPassword download]', error);
+              setText(link.dataset.openingRelease || originalText);
+              window.location.href = releaseFallback;
+              window.setTimeout(() => {
+                link.classList.remove('is-loading');
+                link.removeAttribute('aria-busy');
+                link.textContent = originalText;
+              }, 1400);
+            }
+          });
+        })();
+      </script>
+    </>
+  )}
+
+  {page === 'security' && (
+    <>
+      <PageTitle label={t.security.label} title={t.security.title} description={t.security.description} />
+
+      <section class="section compact">
+        <div class="grid three">
+          {t.security.cards.map((card) => <FeatureCard title={card.title} text={card.text} />)}
+        </div>
+      </section>
+
+      <section class="section readable">
+        <h2>{t.security.summaryTitle}</h2>
+        <ul class="check-list">
+          {t.security.bullets.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="section split-panel">
+        <div>
+          <p class="label">{t.security.noHypeLabel}</p>
+          <h2>{t.security.noHypeTitle}</h2>
+        </div>
+        <p>{t.security.noHypeText}</p>
+      </section>
+
+      <section class="section compact center-cta">
+        <h2>{t.security.docsTitle}</h2>
+        <a class="button secondary" href={pathTo(getPath(locale, 'docs'))}>{t.security.docsButton}</a>
+      </section>
+    </>
+  )}
+
+  {page === 'changelog' && (
+    <>
+      <PageTitle label={t.changelog.label} title={t.changelog.title} description={t.changelog.description} />
+
+      <section class="sync-card">
+        <div>
+          <strong>{t.changelog.source}</strong>
+          <p id="changelog-source">{releases.source === 'github-api' ? `${t.changelog.githubSource} ${releases.repository.owner}/${releases.repository.repo}` : repo.isConfigured ? `${t.changelog.githubSource} ${repo.owner}/${repo.name}` : t.changelog.localFallback}</p>
+        </div>
+        {repo.isConfigured ? <a class="button secondary" href={links.releases}>{t.changelog.viewAll}</a> : <span class="button secondary disabled">{t.common.githubNotConfigured}</span>}
+      </section>
+
+      <section class="timeline" id="changelog-list" data-releases-api={links.releasesApi} data-releases-url={links.releases} data-locale={locales[locale].htmlLang} data-open-release={t.common.openRelease} data-date-missing={t.common.dateMissing} data-no-notes={t.changelog.noNotes} data-updated-source={t.changelog.updatedSource} data-release-title={t.changelog.releaseTitle}>
+        {releases.releases.slice(0, 2).map((release) => (
+          <article class="release-card">
+            <div class="release-head">
+              <div>
+                <p class="label">{formatDate(release.publishedAt, locale)}</p>
+                <h2>{release.name || release.tagName}</h2>
+              </div>
+              {release.htmlUrl ? <a href={release.htmlUrl}>{t.common.openRelease}</a> : <span>{t.common.localRelease}</span>}
+            </div>
+            <div class="release-body" set:html={markdownToHtml(releases.source === 'fallback-local' ? t.changelog.noNotes : (release.body || t.changelog.noNotes))} />
+          </article>
+        ))}
+      </section>
+
+      <section class="section compact center-cta">
+        {repo.isConfigured ? <a class="button secondary" href={links.releases}>{t.changelog.viewMore}</a> : <span class="button secondary disabled">{t.common.githubNotConfigured}</span>}
+      </section>
+
+      <script is:inline>
+        (() => {
+          const list = document.querySelector('#changelog-list');
+          const source = document.querySelector('#changelog-source');
+          if (!list?.dataset.releasesApi) return;
+
+          const escapeHtml = (value) => String(value || '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+
+          const formatDate = (value) => {
+            if (!value) return list.dataset.dateMissing || 'date not provided';
+            try {
+              return new Intl.DateTimeFormat(list.dataset.locale || 'pt-BR', {
+                day: '2-digit', month: 'short', year: 'numeric'
+              }).format(new Date(value));
+            } catch {
+              return value;
+            }
+          };
+
+          const bodyToHtml = (body) => {
+            const text = String(body || list.dataset.noNotes || '').trim();
+            return escapeHtml(text)
+              .split(/\n{2,}/)
+              .map((paragraph) => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+              .join('');
+          };
+
+          const renderRelease = (release) => {
+            const title = escapeHtml(release.name || release.tag_name || list.dataset.releaseTitle || '');
+            const tag = escapeHtml(release.tag_name || '');
+            const url = escapeHtml(release.html_url || list.dataset.releasesUrl || '#');
+            const date = escapeHtml(formatDate(release.published_at));
+            const body = bodyToHtml(release.body);
+            const openRelease = escapeHtml(list.dataset.openRelease || '');
+
+            return `
+              <article class="release-card">
+                <div class="release-head">
+                  <div>
+                    <p class="label">${date}${tag ? ` · ${tag}` : ''}</p>
+                    <h2>${title}</h2>
+                  </div>
+                  <a href="${url}">${openRelease}</a>
+                </div>
+                <div class="release-body">${body}</div>
+              </article>
+            `;
+          };
+
+          async function refreshChangelog() {
+            const response = await fetch(list.dataset.releasesApi, {
+              headers: { Accept: 'application/vnd.github+json' }
+            });
+            if (!response.ok) throw new Error(`GitHub API ${response.status}`);
+            const releases = await response.json();
+            const visible = releases.filter((release) => !release.draft).slice(0, 2);
+            if (!visible.length) return;
+            list.innerHTML = visible.map(renderRelease).join('');
+            if (source) source.textContent = list.dataset.updatedSource || source.textContent;
+          }
+
+          refreshChangelog().catch((error) => {
+            console.warn('[KPassword changelog]', error);
+          });
+        })();
+      </script>
+    </>
+  )}
+
+  {page === 'docs' && (
+    <>
+      <PageTitle label={t.docs.label} title={t.docs.title} description={t.docs.description} />
+
+      <section class="docs-grid">
+        {t.docs.steps.map((step) => (
+          <article>
+            <h2>{step.title}</h2>
+            <p>{step.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <section class="section readable">
+        <h2>{t.docs.recommendationsTitle}</h2>
+        <ul class="check-list">
+          {t.docs.recommendations.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="section compact center-cta">
+        <h2>{t.docs.ctaTitle}</h2>
+        <a class="button primary" href={pathTo(getPath(locale, 'download'))}>{t.docs.ctaButton}</a>
+      </section>
+    </>
+  )}
+
+  {page === 'securityPolicy' && (
+    <>
+      <PageTitle label={t.securityPolicy.label} title={t.securityPolicy.title} description={t.securityPolicy.description} />
+
+      <section class="section readable">
+        <h2>{t.securityPolicy.contactTitle}</h2>
+        <p>{t.securityPolicy.contactTextBefore} <a href={`mailto:${contact.securityEmail}`}>{contact.securityEmail}</a>. {t.securityPolicy.contactTextAfter}</p>
+
+        <h2>{t.securityPolicy.avoidTitle}</h2>
+        <ul>
+          {t.securityPolicy.avoid.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h2>{t.securityPolicy.githubTitle}</h2>
+        <p>{t.securityPolicy.githubText} <a href={links.securityAdvisories}>{t.securityPolicy.githubLinkLabel}</a>.</p>
+      </section>
+    </>
+  )}
+
+  {page === 'termsPrivacy' && (
+    <>
+      <PageTitle label={t.termsPrivacy.label} title={t.termsPrivacy.title} description={t.termsPrivacy.description} />
+
+      <section class="section readable">
+        {t.termsPrivacy.sections.map((section) => (
+          <>
+            <h2>{section.title}</h2>
+            <p>{section.text}</p>
+          </>
+        ))}
+      </section>
+    </>
+  )}
+</BaseLayout>

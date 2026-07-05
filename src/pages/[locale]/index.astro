@@ -1,0 +1,19 @@
+---
+import LocalizedPage from '@/components/LocalizedPage.astro';
+import { localizedLocales, type Locale } from '@/data/i18n';
+
+export function getStaticPaths() {
+  return localizedLocales.map((locale) => ({
+    params: { locale },
+    props: { locale }
+  }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<LocalizedPage locale={locale} page="home" />

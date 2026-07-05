@@ -1,16 +1,26 @@
 ---
-import { site } from '../data/site';
-const year = new Date().getFullYear();
+import { links, product, repo } from '@/data/site';
+import { pathTo } from '@/utils/paths';
+import { content, getPath, type Locale } from '@/data/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale || 'pt';
+const t = content[locale];
 ---
-<footer class="footer">
+
+<footer class="site-footer">
   <div>
-    <strong>{site.name}</strong>
-    <p>Gerenciador de senhas local/offline para Windows.</p>
+    <strong>{product.name}</strong>
+    <p>{t.footer.description}</p>
   </div>
-  <div class="footer-links">
-    <a href="/politica-de-seguranca/">Política de segurança</a>
-    <a href="/termos-e-privacidade/">Termos e Privacidade</a>
-    <a href={site.repositoryUrl}>Repositório</a>
-  </div>
-  <p class="fineprint">© {year} KPassword. Segurança é uma prática contínua, não um slogan.</p>
+
+  <nav aria-label="rodapé">
+    <a href={pathTo(getPath(locale, 'docs'))}>{t.footer.docs}</a>
+    <a href={pathTo(getPath(locale, 'securityPolicy'))}>{t.footer.securityPolicy}</a>
+    <a href={pathTo(getPath(locale, 'termsPrivacy'))}>{t.footer.termsPrivacy}</a>
+    {repo.isConfigured ? <a href={links.repository}>{t.footer.github}</a> : <a href={pathTo(getPath(locale, 'download'))}>{t.footer.github}</a>}
+  </nav>
 </footer>

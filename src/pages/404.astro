@@ -1,14 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { pathTo } from '@/utils/paths';
+import { content, getPath } from '@/data/i18n';
+
+const t = content.pt.notFound;
 ---
-<BaseLayout title="Página não encontrada" description="A página solicitada não foi encontrada no site do KPassword.">
-  <section class="page-hero">
-    <p class="eyebrow">404</p>
-    <h1>Essa porta não abre este cofre.</h1>
-    <p class="lead">A página não foi encontrada. Volte para a Home ou siga para o Download.</p>
-    <div class="action-row">
-      <a class="button button-primary" href="/">Voltar para Home</a>
-      <a class="button" href="/download/">Ir para Download</a>
-    </div>
+
+<BaseLayout locale="pt" pageKey="home" title={t.metaTitle}>
+  <section class="not-found">
+    <p class="label">{t.label}</p>
+    <h1>{t.title}</h1>
+    <p>{t.text}</p>
+    <a class="button primary" href={pathTo(getPath('pt', 'home'))}>{t.button}</a>
   </section>
 </BaseLayout>

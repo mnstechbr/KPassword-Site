@@ -1,16 +1,20 @@
 {
-  "name": "kpassword-site",
-  "version": "0.1.0",
+  "name": "kpassword-website",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "npm run sync:releases",
     "dev": "astro dev",
+    "sync:releases": "node ./scripts/sync-github-releases.mjs",
+    "prebuild": "npm run sync:releases",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^7.0.0",
-    "typescript": "^5.5.4"
+    "astro": "^5.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
 }

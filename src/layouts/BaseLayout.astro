@@ -1,47 +1,55 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
-import { site } from '../data/site';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { pathTo } from '@/utils/paths';
+import { product } from '@/data/site';
+import { content, getPath, locales, type Locale, type PageKey } from '@/data/i18n';
+import '@/styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
-  canonical?: string;
+  locale?: Locale;
+  pageKey?: PageKey;
 }
 
-const {
-  title = site.name,
-  description = site.description,
-  canonical = Astro.url.pathname
-} = Astro.props;
-
-const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
-const canonicalUrl = new URL(canonical, site.url).toString();
+const locale = Astro.props.locale || 'pt';
+const pageKey = Astro.props.pageKey || 'home';
+const t = content[locale];
+const title = Astro.props.title ? `${Astro.props.title} · ${product.name}` : `${product.name} · ${t.siteTitleSuffix}`;
+const description = Astro.props.description || t.siteDescription;
+const htmlLang = locales[locale].htmlLang;
+const alternateLocales = Object.values(locales).map((item) => ({
+  htmlLang: item.htmlLang,
+  href: pathTo(getPath(item.code as Locale, pageKey))
+}));
 ---
+
 <!doctype html>
-<html lang="pt-BR">
+<html lang={htmlLang} data-locale={locale}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#090b12" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={pageTitle} />
+    <title>{title}</title>
+    <link rel="icon" href={pathTo('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" href={pathTo('/favicon.png')} />
+    <link rel="icon" type="image/svg+xml" href={pathTo('/favicon.svg')} />
+    <link rel="apple-touch-icon" href={pathTo('/brand/app-icon.png')} />
+    {alternateLocales.map((item) => <link rel="alternate" hreflang={item.htmlLang} href={item.href} />)}
+    <link rel="alternate" hreflang="x-default" href={pathTo(getPath('pt', pageKey))} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <title>{pageTitle}</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={pathTo('/brand/app-icon.png')} />
   </head>
   <body>
-    <div class="site-shell">
-      <Header />
-      <main>
-        <slot />
-      </main>
-      <Footer />
-    </div>
+    <div class="grain"></div>
+    <Header locale={locale} pageKey={pageKey} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} />
   </body>
 </html>

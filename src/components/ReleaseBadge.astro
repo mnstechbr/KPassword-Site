@@ -1,0 +1,21 @@
+---
+import releases from '@/data/releases.generated.json';
+import { formatDate } from '@/utils/format';
+import { content, type Locale } from '@/data/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale || 'pt';
+const latest = releases.latestStable;
+const t = content[locale];
+---
+
+{latest && (
+  <a class="release-badge" href={latest.htmlUrl}>
+    <span>{t.releaseBadge.label}</span>
+    <strong>{latest.tagName}</strong>
+    <small>{formatDate(latest.publishedAt, locale)}</small>
+  </a>
+)}
