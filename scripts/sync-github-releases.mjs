@@ -26,7 +26,8 @@ async function main() {
   const releases = await fetchReleases(repository.owner, repository.repo);
   const normalized = releases
     .filter((release) => !release.draft)
-    .map((release) => normalizeRelease(release));
+    .map((release) => normalizeRelease(release))
+    .sort(compareReleases);
 
   const stableReleases = normalized.filter((release) => !release.prerelease);
   const latestStable = stableReleases[0] || normalized[0] || null;
@@ -121,6 +122,30 @@ async function fetchReleases(owner, repo) {
   }
 
   return response.json();
+}
+
+
+function parseVersionTag(tagName) {
+  const match = String(tagName || '').trim().match(/^v?(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/i);
+  if (!match) return null;
+  return match.slice(1, 4).map((value) => Number.parseInt(value, 10));
+}
+
+function compareReleases(a, b) {
+  const av = parseVersionTag(a.tagName);
+  const bv = parseVersionTag(b.tagName);
+
+  if (av && bv) {
+    for (let index = 0; index < 3; index += 1) {
+      if (av[index] !== bv[index]) return bv[index] - av[index];
+    }
+  } else if (av) {
+    return -1;
+  } else if (bv) {
+    return 1;
+  }
+
+  return new Date(b.publishedAt || 0).getTime() - new Date(a.publishedAt || 0).getTime();
 }
 
 function normalizeRelease(release) {

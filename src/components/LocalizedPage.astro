@@ -26,10 +26,13 @@ const releaseAssets = latest?.assets || [];
 const installerAsset = latest?.asset || releaseAssets.find((item) => /\.exe$/i.test(item.name));
 const signatureAsset = releaseAssets.find((item) => /\.sig$/i.test(item.name));
 const latestJsonAsset = releaseAssets.find((item) => /^latest\.json$/i.test(item.name));
+const checksumAsset = releaseAssets.find((item) => /^SHA256SUMS\.txt$/i.test(item.name));
 const installerDigest = installerAsset && 'digest' in installerAsset
   ? (installerAsset as { digest?: string }).digest?.replace(/^sha256:/i, '')
   : '';
 const fallbackDownloadUrl = repo.isConfigured ? (latest?.directDownloadUrl || links.latestRelease) : '';
+const installerExampleName = installerAsset?.name || `KPassword-Setup-${latest?.tagName || product.currentVersion}.exe`;
+const hashCommand = `Get-FileHash .\\${installerExampleName} -Algorithm SHA256`;
 
 const meta = t[page] as { metaTitle?: string; metaDescription?: string };
 const pageTitle = meta.metaTitle || undefined;
@@ -92,15 +95,15 @@ const pageDescription = meta.metaDescription || undefined;
     <>
       <PageTitle label={t.download.label} title={t.download.title} description={t.download.description} />
 
-      <section class="download-panel">
+      <section class="download-panel" data-kpassword-release-panel data-api={links.latestReleaseApi} data-locale={locales[locale].htmlLang} data-size-missing={t.common.sizeMissing}>
         <div>
           <p class="label">{t.download.detectedVersion}</p>
-          <h2>{latest?.tagName || product.currentVersion}</h2>
-          <p>{latest?.name || t.download.fallbackName}</p>
+          <h2 data-release-version>{latest?.tagName || product.currentVersion}</h2>
+          <p data-release-name>{latest?.name || t.download.fallbackName}</p>
           <dl class="meta-list">
-            <div><dt>{t.download.published}</dt><dd>{formatDate(latest?.publishedAt, locale)}</dd></div>
-            <div><dt>{t.download.shownInstaller}</dt><dd>{asset?.name || t.download.detectedOnClick}</dd></div>
-            <div><dt>{t.download.size}</dt><dd>{formatBytes(asset?.size, locale)}</dd></div>
+            <div><dt>{t.download.published}</dt><dd data-release-published>{formatDate(latest?.publishedAt, locale)}</dd></div>
+            <div><dt>{t.download.shownInstaller}</dt><dd data-release-installer>{asset?.name || t.download.detectedOnClick}</dd></div>
+            <div><dt>{t.download.size}</dt><dd data-release-size>{formatBytes(asset?.size, locale)}</dd></div>
           </dl>
         </div>
 
@@ -119,8 +122,9 @@ const pageDescription = meta.metaDescription || undefined;
                 data-opening-release={t.download.client.openingRelease}
                 data-api-missing={t.download.client.apiMissing}
                 data-installer-missing={t.download.client.installerMissing}
+                data-release-version-label={t.download.detectedVersion}
               >{t.download.downloadButton}</a>
-              <a class="button secondary" href={releaseUrl}>{t.download.viewRelease}</a>
+              <a class="button secondary" href={releaseUrl} data-release-link>{t.download.viewRelease}</a>
               <p class="fineprint" id="download-helper">{t.download.helper}</p>
             </>
           ) : (
@@ -135,12 +139,13 @@ const pageDescription = meta.metaDescription || undefined;
       <section class="section compact">
         <div class="notice">
           <strong>{t.download.howTitle}</strong>
-          <p>{t.download.howTextBefore} <code>{releaseName}</code>. {t.download.howTextAfter} <code>{product.releaseAssetName}</code> {t.download.howTextFinal} <code>KPassword-Setup-v0.9.3.exe</code>.</p>
+          <p>{t.download.howTextBefore} <code>{releaseName}</code>. {t.download.howTextAfter} <code>{product.releaseAssetName}</code> {t.download.howTextFinal} <code data-installer-example>{installerExampleName}</code>.</p>
           <a class="text-link" href={pathTo(getPath(locale, 'verifyDownload'))}>{t.download.verifyDownload}</a>
         </div>
       </section>
       <script is:inline>
         (() => {
+          const panel = document.querySelector('[data-kpassword-release-panel]');
           const link = document.querySelector('[data-latest-kpassword-download]');
           const helper = document.querySelector('#download-helper');
           if (!link) return;
@@ -162,32 +167,100 @@ const pageDescription = meta.metaDescription || undefined;
             return -1;
           };
 
-          async function resolveLatestInstaller() {
-            const api = link.dataset.api;
-            const preferred = link.dataset.preferred || 'KPassword-Setup.exe';
+          const pickAsset = (assets, preferred, matcher) => {
+            const filtered = (Array.isArray(assets) ? assets : []).filter((asset) => matcher(String(asset?.name || '')));
+            return filtered
+              .map((item) => ({ item, score: assetScore(item, preferred) }))
+              .sort((a, b) => b.score - a.score)[0]?.item || filtered[0] || null;
+          };
+
+          const formatDate = (value) => {
+            if (!value) return '';
+            try {
+              return new Intl.DateTimeFormat(panel?.dataset.locale || 'pt-BR', {
+                day: '2-digit', month: 'long', year: 'numeric'
+              }).format(new Date(value));
+            } catch {
+              return value;
+            }
+          };
+
+          const formatBytes = (value) => {
+            const bytes = Number(value);
+            if (!Number.isFinite(bytes) || bytes <= 0) return panel?.dataset.sizeMissing || '';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let size = bytes;
+            let unit = 0;
+            while (size >= 1024 && unit < units.length - 1) {
+              size /= 1024;
+              unit += 1;
+            }
+            return `${new Intl.NumberFormat(panel?.dataset.locale || 'pt-BR', {
+              maximumFractionDigits: unit === 0 ? 0 : 1
+            }).format(size)} ${units[unit]}`;
+          };
+
+          async function fetchLatestRelease() {
+            const api = link.dataset.api || panel?.dataset.api;
             if (!api) throw new Error(link.dataset.apiMissing || 'API ausente.');
 
             const response = await fetch(api, {
-              headers: { Accept: 'application/vnd.github+json' }
+              headers: { Accept: 'application/vnd.github+json' },
+              cache: 'no-store'
             });
 
             if (!response.ok) {
               throw new Error(`GitHub API ${response.status}`);
             }
 
-            const release = await response.json();
-            const assets = Array.isArray(release.assets) ? release.assets : [];
-            const asset = assets
-              .map((item) => ({ item, score: assetScore(item, preferred) }))
-              .filter((entry) => entry.score >= 0)
-              .sort((a, b) => b.score - a.score)[0]?.item;
+            return response.json();
+          }
 
-            if (!asset?.browser_download_url) {
-              throw new Error(link.dataset.installerMissing || 'Instalador ausente.');
-            }
+          function applyRelease(release) {
+            const preferred = link.dataset.preferred || 'KPassword-Setup.exe';
+            const assets = Array.isArray(release.assets) ? release.assets : [];
+            const asset = pickAsset(assets, preferred, (name) => /\.exe$/i.test(name));
+            if (!asset?.browser_download_url) return null;
+
+            link.href = asset.browser_download_url;
+            if (release.html_url) link.dataset.release = release.html_url;
+
+            const releaseLink = document.querySelector('[data-release-link]');
+            if (releaseLink && release.html_url) releaseLink.href = release.html_url;
+
+            const version = document.querySelector('[data-release-version]');
+            if (version && release.tag_name) version.textContent = release.tag_name;
+
+            const name = document.querySelector('[data-release-name]');
+            if (name) name.textContent = release.name || release.tag_name || name.textContent;
+
+            const published = document.querySelector('[data-release-published]');
+            if (published) published.textContent = formatDate(release.published_at) || published.textContent;
+
+            const installer = document.querySelector('[data-release-installer]');
+            if (installer) installer.textContent = asset.name;
+
+            const size = document.querySelector('[data-release-size]');
+            if (size) size.textContent = formatBytes(asset.size);
+
+            const example = document.querySelector('[data-installer-example]');
+            if (example) example.textContent = asset.name;
 
             return asset.browser_download_url;
           }
+
+          async function resolveLatestInstaller() {
+            const release = await fetchLatestRelease();
+            const url = applyRelease(release);
+            if (!url) {
+              throw new Error(link.dataset.installerMissing || 'Instalador ausente.');
+            }
+            return url;
+          }
+
+          fetchLatestRelease()
+            .then(applyRelease)
+            .catch((error) => console.warn('[KPassword download refresh]', error));
 
           link.addEventListener('click', async (event) => {
             event.preventDefault();
@@ -257,7 +330,7 @@ const pageDescription = meta.metaDescription || undefined;
     <>
       <PageTitle label={t.verifyDownload.label} title={t.verifyDownload.title} description={t.verifyDownload.description} />
 
-      <section class="download-panel verify-release-panel">
+      <section class="download-panel verify-release-panel" data-kpassword-verify-release data-api={links.latestReleaseApi} data-locale={locales[locale].htmlLang} data-open-release={t.verifyDownload.openRelease} data-open-file={t.verifyDownload.openFile} data-not-available={t.verifyDownload.notAvailable}>
         <div>
           <p class="label">{t.verifyDownload.sourceTitle}</p>
           <h2>{t.verifyDownload.latestTitle}</h2>
@@ -266,24 +339,28 @@ const pageDescription = meta.metaDescription || undefined;
 
         <dl class="meta-list verify-meta">
           <div><dt>{t.verifyDownload.repository}</dt><dd><code>{releaseName}</code></dd></div>
-          <div><dt>{t.verifyDownload.version}</dt><dd>{latest?.tagName || product.currentVersion}</dd></div>
+          <div><dt>{t.verifyDownload.version}</dt><dd data-verify-version>{latest?.tagName || product.currentVersion}</dd></div>
           <div>
             <dt>{t.verifyDownload.installer}</dt>
-            <dd>{installerAsset?.browserDownloadUrl ? <a href={installerAsset.browserDownloadUrl}>{installerAsset.name}</a> : (installerAsset?.name || t.verifyDownload.notAvailable)}</dd>
+            <dd data-verify-installer>{installerAsset?.browserDownloadUrl ? <a href={installerAsset.browserDownloadUrl}>{installerAsset.name}</a> : (installerAsset?.name || t.verifyDownload.notAvailable)}</dd>
           </div>
           <div>
             <dt>{t.verifyDownload.release}</dt>
-            <dd>{releaseUrl ? <a href={releaseUrl}>{t.verifyDownload.openRelease}</a> : t.verifyDownload.notAvailable}</dd>
+            <dd data-verify-release>{releaseUrl ? <a href={releaseUrl}>{t.verifyDownload.openRelease}</a> : t.verifyDownload.notAvailable}</dd>
           </div>
           <div>
             <dt>{t.verifyDownload.latestJson}</dt>
-            <dd>{latestJsonAsset?.browserDownloadUrl ? <a href={latestJsonAsset.browserDownloadUrl}>{t.verifyDownload.openFile}</a> : t.verifyDownload.notAvailable}</dd>
+            <dd data-verify-latest-json>{latestJsonAsset?.browserDownloadUrl ? <a href={latestJsonAsset.browserDownloadUrl}>{t.verifyDownload.openFile}</a> : t.verifyDownload.notAvailable}</dd>
           </div>
           <div>
             <dt>{t.verifyDownload.signature}</dt>
-            <dd>{signatureAsset?.browserDownloadUrl ? <a href={signatureAsset.browserDownloadUrl}>{signatureAsset.name}</a> : t.verifyDownload.notAvailable}</dd>
+            <dd data-verify-signature>{signatureAsset?.browserDownloadUrl ? <a href={signatureAsset.browserDownloadUrl}>{signatureAsset.name}</a> : t.verifyDownload.notAvailable}</dd>
           </div>
-          {installerDigest && <div><dt>SHA256</dt><dd><code>{installerDigest}</code></dd></div>}
+          <div>
+            <dt>SHA256SUMS.txt</dt>
+            <dd data-verify-checksums>{checksumAsset?.browserDownloadUrl ? <a href={checksumAsset.browserDownloadUrl}>{t.verifyDownload.openFile}</a> : t.verifyDownload.notAvailable}</dd>
+          </div>
+          <div><dt>SHA256</dt><dd data-verify-sha>{installerDigest ? <code>{installerDigest}</code> : t.verifyDownload.notAvailable}</dd></div>
         </dl>
       </section>
 
@@ -305,7 +382,7 @@ const pageDescription = meta.metaDescription || undefined;
           <p>{t.verifyDownload.hashText}</p>
         </div>
         <div>
-          <pre><code>Get-FileHash .\KPassword-Setup-v0.9.3.exe -Algorithm SHA256</code></pre>
+          <pre><code data-verify-hash-command>{hashCommand}</code></pre>
           <p>{t.verifyDownload.hashHelp}</p>
         </div>
       </section>
@@ -324,6 +401,98 @@ const pageDescription = meta.metaDescription || undefined;
           <p>{t.verifyDownload.warningText}</p>
         </div>
       </section>
+
+      <script is:inline>
+        (() => {
+          const panel = document.querySelector('[data-kpassword-verify-release]');
+          if (!panel?.dataset.api) return;
+
+          const labels = {
+            openRelease: panel.dataset.openRelease || 'Abrir lançamento',
+            openFile: panel.dataset.openFile || 'Abrir arquivo',
+            notAvailable: panel.dataset.notAvailable || 'Não encontrado neste lançamento'
+          };
+
+          const assetScore = (asset, preferred) => {
+            const name = String(asset?.name || '');
+            if (!name || !asset?.browser_download_url) return -1;
+            if (name === preferred) return 100;
+            if (/^KPassword-Setup-v?[0-9][0-9A-Za-z_.-]*\.exe$/i.test(name)) return 90;
+            if (/KPassword.*Setup.*\.exe$/i.test(name)) return 80;
+            if (/Setup.*KPassword.*\.exe$/i.test(name)) return 70;
+            if (/KPassword.*\.exe$/i.test(name)) return 60;
+            if (/\.exe$/i.test(name)) return 20;
+            return -1;
+          };
+
+          const pickAsset = (assets, matcher) => {
+            const filtered = (Array.isArray(assets) ? assets : []).filter((asset) => matcher(String(asset?.name || '')));
+            return filtered
+              .map((item) => ({ item, score: assetScore(item, 'KPassword-Setup.exe') }))
+              .sort((a, b) => b.score - a.score)[0]?.item || filtered[0] || null;
+          };
+
+          const setHtml = (selector, html) => {
+            const el = document.querySelector(selector);
+            if (el) el.innerHTML = html;
+          };
+
+          const escapeHtml = (value) => String(value || '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+
+          const linkHtml = (href, text) => `<a href="${escapeHtml(href)}">${escapeHtml(text)}</a>`;
+
+          async function refreshVerifyPanel() {
+            const response = await fetch(panel.dataset.api, {
+              headers: { Accept: 'application/vnd.github+json' },
+              cache: 'no-store'
+            });
+            if (!response.ok) throw new Error(`GitHub API ${response.status}`);
+
+            const release = await response.json();
+            const assets = Array.isArray(release.assets) ? release.assets : [];
+            const installer = pickAsset(assets, (name) => /\.exe$/i.test(name));
+            const signature = assets.find((asset) => /\.sig$/i.test(String(asset?.name || '')));
+            const latestJson = assets.find((asset) => /^latest\.json$/i.test(String(asset?.name || '')));
+            const checksums = assets.find((asset) => /^SHA256SUMS\.txt$/i.test(String(asset?.name || '')));
+
+            const version = document.querySelector('[data-verify-version]');
+            if (version && release.tag_name) version.textContent = release.tag_name;
+
+            if (installer?.browser_download_url) {
+              setHtml('[data-verify-installer]', linkHtml(installer.browser_download_url, installer.name));
+              const command = document.querySelector('[data-verify-hash-command]');
+              if (command) command.textContent = `Get-FileHash .\\${installer.name} -Algorithm SHA256`;
+              const digest = String(installer.digest || '').replace(/^sha256:/i, '');
+              setHtml('[data-verify-sha]', digest ? `<code>${escapeHtml(digest)}</code>` : escapeHtml(labels.notAvailable));
+            }
+
+            if (release.html_url) {
+              setHtml('[data-verify-release]', linkHtml(release.html_url, labels.openRelease));
+            }
+
+            if (latestJson?.browser_download_url) {
+              setHtml('[data-verify-latest-json]', linkHtml(latestJson.browser_download_url, labels.openFile));
+            }
+
+            if (checksums?.browser_download_url) {
+              setHtml('[data-verify-checksums]', linkHtml(checksums.browser_download_url, labels.openFile));
+            }
+
+            if (signature?.browser_download_url) {
+              setHtml('[data-verify-signature]', linkHtml(signature.browser_download_url, signature.name));
+            }
+          }
+
+          refreshVerifyPanel().catch((error) => {
+            console.warn('[KPassword verify download refresh]', error);
+          });
+        })();
+      </script>
     </>
   )}
 

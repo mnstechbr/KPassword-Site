@@ -8,7 +8,7 @@ export const product = {
   tagline: 'Gerenciador de senhas local e sem internet para Windows.',
   shortDescription:
     'Guarde credenciais no seu computador, sem conta e sem nuvem obrigatória.',
-  currentVersion: 'v0.9.3',
+  currentVersion: 'v0.9.5',
   platform: 'Windows',
   releaseAssetName:
     import.meta.env.KPASSWORD_RELEASE_ASSET_NAME || 'KPassword-Setup.exe'

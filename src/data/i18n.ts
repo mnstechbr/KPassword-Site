@@ -253,7 +253,7 @@ export const content = {
       stepsTitle: 'Checklist rápido',
       steps: [
         { title: '1. Origem', text: 'Confirme que o lançamento pertence ao repositório mnstechbr/KPassword.' },
-        { title: '2. Nome', text: 'Confira se o arquivo parece um instalador do KPassword, por exemplo KPassword-Setup-v0.9.3.exe.' },
+        { title: '2. Nome', text: 'Confira se o arquivo parece um instalador do KPassword, por exemplo KPassword-Setup-v0.9.5.exe.' },
         { title: '3. Hash', text: 'Use o PowerShell para calcular o SHA256 do arquivo baixado.' },
         { title: '4. Dúvida', text: 'Se nome, hash ou origem não baterem, não instale. Apague o arquivo e baixe novamente pelo site oficial ou pelo GitHub Releases.' }
       ],
@@ -469,7 +469,7 @@ export const content = {
       stepsTitle: 'Checklist rápido',
       steps: [
         { title: '1. Origen', text: 'Confirma que la publicación pertenece al repositorio mnstechbr/KPassword.' },
-        { title: '2. Nombre', text: 'Revisa que el archivo parezca un instalador de KPassword, por ejemplo KPassword-Setup-v0.9.3.exe.' },
+        { title: '2. Nombre', text: 'Revisa que el archivo parezca un instalador de KPassword, por ejemplo KPassword-Setup-v0.9.5.exe.' },
         { title: '3. Hash', text: 'Usa PowerShell para calcular el SHA256 del archivo descargado.' },
         { title: '4. Duda', text: 'Si el nombre, el hash o el origen no coinciden, no instales. Borra el archivo y descarga de nuevo desde el sitio oficial o GitHub Releases.' }
       ],
@@ -685,7 +685,7 @@ export const content = {
       stepsTitle: 'Quick checklist',
       steps: [
         { title: '1. Source', text: 'Confirm that the release belongs to the mnstechbr/KPassword repository.' },
-        { title: '2. Name', text: 'Check that the file looks like a KPassword installer, for example KPassword-Setup-v0.9.3.exe.' },
+        { title: '2. Name', text: 'Check that the file looks like a KPassword installer, for example KPassword-Setup-v0.9.5.exe.' },
         { title: '3. Hash', text: 'Use PowerShell to calculate the SHA256 of the downloaded file.' },
         { title: '4. Doubt', text: 'If the name, hash, or source does not match, do not install it. Delete the file and download again from the official site or GitHub Releases.' }
       ],
@@ -901,7 +901,7 @@ export const content = {
       stepsTitle: 'Hızlı kontrol listesi',
       steps: [
         { title: '1. Kaynak', text: 'Yayının mnstechbr/KPassword deposuna ait olduğunu doğrula.' },
-        { title: '2. Ad', text: 'Dosyanın KPassword kurulum dosyasına benzediğini kontrol et, örneğin KPassword-Setup-v0.9.3.exe.' },
+        { title: '2. Ad', text: 'Dosyanın KPassword kurulum dosyasına benzediğini kontrol et, örneğin KPassword-Setup-v0.9.5.exe.' },
         { title: '3. Hash', text: 'İndirilen dosyanın SHA256 değerini hesaplamak için PowerShell kullan.' },
         { title: '4. Şüphe', text: 'Ad, hash veya kaynak uyuşmuyorsa kurma. Dosyayı sil ve resmi siteden ya da GitHub Releases sayfasından yeniden indir.' }
       ],
