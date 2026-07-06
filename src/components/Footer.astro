@@ -19,6 +19,7 @@ const t = content[locale];
 
   <nav aria-label="rodapé">
     <a href={pathTo(getPath(locale, 'docs'))}>{t.footer.docs}</a>
+    <a href={pathTo(getPath(locale, 'verifyDownload'))}>{t.footer.verifyDownload}</a>
     <a href={pathTo(getPath(locale, 'securityPolicy'))}>{t.footer.securityPolicy}</a>
     <a href={pathTo(getPath(locale, 'termsPrivacy'))}>{t.footer.termsPrivacy}</a>
     {repo.isConfigured ? <a href={links.repository}>{t.footer.github}</a> : <a href={pathTo(getPath(locale, 'download'))}>{t.footer.github}</a>}

@@ -137,6 +137,7 @@ function normalizeRelease(release) {
       size: asset.size,
       downloadCount: asset.download_count,
       browserDownloadUrl: asset.browser_download_url,
+      digest: asset.digest || '',
       contentType: asset.content_type,
       updatedAt: asset.updated_at
     }))

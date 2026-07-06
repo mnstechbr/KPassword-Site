@@ -15,6 +15,7 @@ export const pageKeys = [
   'security',
   'changelog',
   'docs',
+  'verifyDownload',
   'securityPolicy',
   'termsPrivacy'
 ] as const;
@@ -28,6 +29,7 @@ export const routes: Record<Locale, Record<PageKey, string>> = {
     security: '/seguranca',
     changelog: '/novidades',
     docs: '/documentacao',
+    verifyDownload: '/verificar-download',
     securityPolicy: '/politica-de-seguranca',
     termsPrivacy: '/termos-e-privacidade'
   },
@@ -37,6 +39,7 @@ export const routes: Record<Locale, Record<PageKey, string>> = {
     security: '/es/seguridad',
     changelog: '/es/novedades',
     docs: '/es/documentacion',
+    verifyDownload: '/es/verificar-download',
     securityPolicy: '/es/politica-de-seguridad',
     termsPrivacy: '/es/terminos-y-privacidad'
   },
@@ -46,6 +49,7 @@ export const routes: Record<Locale, Record<PageKey, string>> = {
     security: '/en/security',
     changelog: '/en/changelog',
     docs: '/en/docs',
+    verifyDownload: '/en/verify-download',
     securityPolicy: '/en/security-policy',
     termsPrivacy: '/en/terms-privacy'
   },
@@ -55,6 +59,7 @@ export const routes: Record<Locale, Record<PageKey, string>> = {
     security: '/tr/guvenlik',
     changelog: '/tr/degisiklikler',
     docs: '/tr/belgeler',
+    verifyDownload: '/tr/indirmeyi-dogrula',
     securityPolicy: '/tr/guvenlik-politikasi',
     termsPrivacy: '/tr/kosullar-ve-gizlilik'
   }
@@ -88,6 +93,7 @@ export const content = {
     footer: {
       description: 'Gerenciador de senhas local e sem internet para Windows.',
       docs: 'Documentação',
+      verifyDownload: 'Verificar download',
       securityPolicy: 'Política de segurança',
       termsPrivacy: 'Termos e privacidade',
       github: 'GitHub'
@@ -140,6 +146,7 @@ export const content = {
       size: 'Tamanho',
       downloadButton: 'Baixar instalador',
       viewRelease: 'Ver lançamento no GitHub',
+      verifyDownload: 'Verificar download',
       helper: 'O botão consulta o lançamento mais recente e baixa o arquivo .exe do KPassword, mesmo quando o nome contém a versão.',
       disabled: 'Link do GitHub não configurado',
       disabledHelp: 'Configure o repositório do GitHub para ativar o download automático.',
@@ -179,7 +186,8 @@ export const content = {
       noHypeTitle: 'O que o KPassword não promete',
       noHypeText: 'Não existe segurança absoluta. O app busca boas práticas, atualização cuidadosa e transparência. A proteção também depende de uma senha mestra forte, do estado do Windows, de backups seguros e de hábitos do usuário.',
       docsTitle: 'Quer detalhes de uso?',
-      docsButton: 'Abrir documentação'
+      docsButton: 'Abrir documentação',
+      verifyDownloadButton: 'Verificar download'
     },
     changelog: {
       metaTitle: 'Novidades',
@@ -218,6 +226,39 @@ export const content = {
       ],
       ctaTitle: 'Pronto para instalar?',
       ctaButton: 'Ir para baixar'
+    },
+    verifyDownload: {
+      metaTitle: 'Verificar download',
+      metaDescription: 'Como conferir o instalador do KPassword antes de instalar no Windows.',
+      label: 'Verificar download',
+      title: 'Confira o instalador antes de abrir',
+      description: 'A verificação reduz o risco de instalar um arquivo errado, adulterado ou baixado de uma origem incorreta. É um cuidado simples, sem prometer proteção absoluta.',
+      sourceTitle: 'Comece pela origem',
+      sourceText: 'Baixe sempre pelo site oficial ou pela página GitHub Releases do repositório mnstechbr/KPassword.',
+      latestTitle: 'Último lançamento público',
+      version: 'Versão',
+      installer: 'Instalador',
+      release: 'Lançamento',
+      latestJson: 'latest.json',
+      signature: 'Assinatura .sig',
+      openRelease: 'Abrir lançamento',
+      openFile: 'Abrir arquivo',
+      notAvailable: 'Não encontrado neste lançamento',
+      repository: 'Repositório',
+      hashTitle: 'Conferir SHA256 no PowerShell',
+      hashText: 'Depois de baixar, abra o PowerShell na pasta do arquivo e rode:',
+      hashHelp: 'Compare o valor exibido com o SHA256 publicado no lançamento oficial, quando houver. Se o GitHub mostrar um resumo SHA256 para o arquivo, ele deve bater com esse resultado.',
+      updaterTitle: 'Arquivos do atualizador',
+      updaterText: 'Os arquivos .sig e latest.json fazem parte do atualizador assinado. Eles ajudam o app a validar atualizações, mas não substituem o cuidado de baixar pela origem correta.',
+      stepsTitle: 'Checklist rápido',
+      steps: [
+        { title: '1. Origem', text: 'Confirme que o lançamento pertence ao repositório mnstechbr/KPassword.' },
+        { title: '2. Nome', text: 'Confira se o arquivo parece um instalador do KPassword, por exemplo KPassword-Setup-v0.9.3.exe.' },
+        { title: '3. Hash', text: 'Use o PowerShell para calcular o SHA256 do arquivo baixado.' },
+        { title: '4. Dúvida', text: 'Se nome, hash ou origem não baterem, não instale. Apague o arquivo e baixe novamente pelo site oficial ou pelo GitHub Releases.' }
+      ],
+      warningTitle: 'Evite fontes desconhecidas',
+      warningText: 'Não instale arquivos recebidos por mensagens, fóruns, encurtadores ou sites de terceiros. Se algo parecer diferente do release oficial, prefira parar e conferir antes.'
     },
     securityPolicy: {
       metaTitle: 'Política de segurança',
@@ -268,6 +309,7 @@ export const content = {
     footer: {
       description: 'Gestor de contraseñas local y sin conexión para Windows.',
       docs: 'Documentación',
+      verifyDownload: 'Verificar descarga',
       securityPolicy: 'Política de seguridad',
       termsPrivacy: 'Términos y privacidad',
       github: 'GitHub'
@@ -320,6 +362,7 @@ export const content = {
       size: 'Tamaño',
       downloadButton: 'Descargar instalador',
       viewRelease: 'Ver publicación en GitHub',
+      verifyDownload: 'Verificar descarga',
       helper: 'El botón consulta la publicación más reciente y descarga el archivo .exe de KPassword, incluso cuando el nombre contiene la versión.',
       disabled: 'Enlace de GitHub no configurado',
       disabledHelp: 'Configura el repositorio de GitHub para activar la descarga automática.',
@@ -359,7 +402,8 @@ export const content = {
       noHypeTitle: 'Lo que KPassword no promete',
       noHypeText: 'No existe la seguridad absoluta. La app busca buenas prácticas, actualizaciones cuidadosas y transparencia. La protección también depende de una contraseña maestra fuerte, del estado de Windows, de copias seguras y de los hábitos del usuario.',
       docsTitle: '¿Quieres detalles de uso?',
-      docsButton: 'Abrir documentación'
+      docsButton: 'Abrir documentación',
+      verifyDownloadButton: 'Verificar descarga'
     },
     changelog: {
       metaTitle: 'Novedades',
@@ -398,6 +442,39 @@ export const content = {
       ],
       ctaTitle: '¿Listo para instalar?',
       ctaButton: 'Ir a descargar'
+    },
+    verifyDownload: {
+      metaTitle: 'Verificar descarga',
+      metaDescription: 'Cómo revisar el instalador de KPassword antes de instalarlo en Windows.',
+      label: 'Verificar descarga',
+      title: 'Revisa el instalador antes de abrirlo',
+      description: 'La verificación reduce el riesgo de instalar un archivo equivocado, alterado o descargado desde un origen incorrecto. Es una precaución simple, sin prometer protección absoluta.',
+      sourceTitle: 'Empieza por el origen',
+      sourceText: 'Descarga siempre desde el sitio oficial o desde la página GitHub Releases del repositorio mnstechbr/KPassword.',
+      latestTitle: 'Última publicación pública',
+      version: 'Versión',
+      installer: 'Instalador',
+      release: 'Publicación',
+      latestJson: 'latest.json',
+      signature: 'Firma .sig',
+      openRelease: 'Abrir publicación',
+      openFile: 'Abrir archivo',
+      notAvailable: 'No encontrado en esta publicación',
+      repository: 'Repositorio',
+      hashTitle: 'Verificar SHA256 en PowerShell',
+      hashText: 'Después de descargar, abre PowerShell en la carpeta del archivo y ejecuta:',
+      hashHelp: 'Compara el valor mostrado con el SHA256 publicado en la publicación oficial, cuando exista. Si GitHub muestra un resumen SHA256 para el archivo, debe coincidir con ese resultado.',
+      updaterTitle: 'Archivos del actualizador',
+      updaterText: 'Los archivos .sig y latest.json forman parte del actualizador firmado. Ayudan a la app a validar actualizaciones, pero no reemplazan la precaución de descargar desde el origen correcto.',
+      stepsTitle: 'Checklist rápido',
+      steps: [
+        { title: '1. Origen', text: 'Confirma que la publicación pertenece al repositorio mnstechbr/KPassword.' },
+        { title: '2. Nombre', text: 'Revisa que el archivo parezca un instalador de KPassword, por ejemplo KPassword-Setup-v0.9.3.exe.' },
+        { title: '3. Hash', text: 'Usa PowerShell para calcular el SHA256 del archivo descargado.' },
+        { title: '4. Duda', text: 'Si el nombre, el hash o el origen no coinciden, no instales. Borra el archivo y descarga de nuevo desde el sitio oficial o GitHub Releases.' }
+      ],
+      warningTitle: 'Evita fuentes desconocidas',
+      warningText: 'No instales archivos recibidos por mensajes, foros, enlaces acortados o sitios de terceros. Si algo se ve distinto de la publicación oficial, es mejor detenerse y revisar antes.'
     },
     securityPolicy: {
       metaTitle: 'Política de seguridad',
@@ -448,6 +525,7 @@ export const content = {
     footer: {
       description: 'Local password manager for Windows.',
       docs: 'Documentation',
+      verifyDownload: 'Verify download',
       securityPolicy: 'Security policy',
       termsPrivacy: 'Terms and privacy',
       github: 'GitHub'
@@ -500,6 +578,7 @@ export const content = {
       size: 'Size',
       downloadButton: 'Download installer',
       viewRelease: 'View release on GitHub',
+      verifyDownload: 'Verify download',
       helper: 'The button checks the latest release and downloads the KPassword .exe file, even when the file name includes the version.',
       disabled: 'GitHub link not configured',
       disabledHelp: 'Configure the GitHub repository to enable automatic download.',
@@ -539,7 +618,8 @@ export const content = {
       noHypeTitle: 'What KPassword does not promise',
       noHypeText: 'Absolute security does not exist. The app aims for good practices, careful updates and transparency. Protection also depends on a strong master password, the state of Windows, safe backups and user habits.',
       docsTitle: 'Want usage details?',
-      docsButton: 'Open documentation'
+      docsButton: 'Open documentation',
+      verifyDownloadButton: 'Verify download'
     },
     changelog: {
       metaTitle: 'Updates',
@@ -578,6 +658,39 @@ export const content = {
       ],
       ctaTitle: 'Ready to install?',
       ctaButton: 'Go to download'
+    },
+    verifyDownload: {
+      metaTitle: 'Verify download',
+      metaDescription: 'How to check the KPassword installer before installing it on Windows.',
+      label: 'Verify download',
+      title: 'Check the installer before opening it',
+      description: 'Verification reduces the risk of installing the wrong file, a tampered file, or a file downloaded from the wrong source. It is a simple precaution, without promising absolute protection.',
+      sourceTitle: 'Start with the source',
+      sourceText: 'Always download from the official site or from the GitHub Releases page of the mnstechbr/KPassword repository.',
+      latestTitle: 'Latest public release',
+      version: 'Version',
+      installer: 'Installer',
+      release: 'Release',
+      latestJson: 'latest.json',
+      signature: '.sig signature',
+      openRelease: 'Open release',
+      openFile: 'Open file',
+      notAvailable: 'Not found in this release',
+      repository: 'Repository',
+      hashTitle: 'Check SHA256 in PowerShell',
+      hashText: 'After downloading, open PowerShell in the file folder and run:',
+      hashHelp: 'Compare the displayed value with the SHA256 published in the official release, when available. If GitHub shows a SHA256 digest for the asset, it should match this result.',
+      updaterTitle: 'Updater files',
+      updaterText: 'The .sig and latest.json files are used by the signed updater. They help the app validate updates, but they do not replace downloading from the correct source.',
+      stepsTitle: 'Quick checklist',
+      steps: [
+        { title: '1. Source', text: 'Confirm that the release belongs to the mnstechbr/KPassword repository.' },
+        { title: '2. Name', text: 'Check that the file looks like a KPassword installer, for example KPassword-Setup-v0.9.3.exe.' },
+        { title: '3. Hash', text: 'Use PowerShell to calculate the SHA256 of the downloaded file.' },
+        { title: '4. Doubt', text: 'If the name, hash, or source does not match, do not install it. Delete the file and download again from the official site or GitHub Releases.' }
+      ],
+      warningTitle: 'Avoid unknown sources',
+      warningText: 'Do not install files received through messages, forums, short links, or third-party sites. If something looks different from the official release, stop and check first.'
     },
     securityPolicy: {
       metaTitle: 'Security policy',
@@ -628,6 +741,7 @@ export const content = {
     footer: {
       description: 'Windows için yerel parola yöneticisi.',
       docs: 'Belgeler',
+      verifyDownload: 'İndirmeyi doğrula',
       securityPolicy: 'Güvenlik politikası',
       termsPrivacy: 'Koşullar ve gizlilik',
       github: 'GitHub'
@@ -680,6 +794,7 @@ export const content = {
       size: 'Boyut',
       downloadButton: 'Kurulum dosyasını indir',
       viewRelease: 'GitHub’da yayını gör',
+      verifyDownload: 'İndirmeyi doğrula',
       helper: 'Düğme son yayını denetler ve dosya adı sürümü içerse bile KPassword .exe dosyasını indirir.',
       disabled: 'GitHub bağlantısı yapılandırılmadı',
       disabledHelp: 'Otomatik indirmeyi etkinleştirmek için GitHub deposunu yapılandır.',
@@ -719,7 +834,8 @@ export const content = {
       noHypeTitle: 'KPassword ne vadetmez',
       noHypeText: 'Mutlak güvenlik diye bir şey yoktur. Uygulama iyi uygulamalar, dikkatli güncellemeler ve şeffaflık hedefler. Koruma ayrıca güçlü bir ana parolaya, Windows’un durumuna, güvenli yedeklere ve kullanıcı alışkanlıklarına bağlıdır.',
       docsTitle: 'Kullanım ayrıntıları mı?',
-      docsButton: 'Belgeleri aç'
+      docsButton: 'Belgeleri aç',
+      verifyDownloadButton: 'İndirmeyi doğrula'
     },
     changelog: {
       metaTitle: 'Yenilikler',
@@ -758,6 +874,39 @@ export const content = {
       ],
       ctaTitle: 'Kurmaya hazır mısın?',
       ctaButton: 'İndirmeye git'
+    },
+    verifyDownload: {
+      metaTitle: 'İndirmeyi doğrula',
+      metaDescription: 'Windows’a kurmadan önce KPassword kurulum dosyasını nasıl kontrol edeceğin.',
+      label: 'İndirmeyi doğrula',
+      title: 'Açmadan önce kurulum dosyasını kontrol et',
+      description: 'Doğrulama; yanlış, değiştirilmiş veya yanlış kaynaktan indirilmiş bir dosyayı kurma riskini azaltır. Mutlak koruma vadetmeden, basit bir önlemdir.',
+      sourceTitle: 'Kaynakla başla',
+      sourceText: 'Her zaman resmi siteden veya mnstechbr/KPassword deposunun GitHub Releases sayfasından indir.',
+      latestTitle: 'Son herkese açık yayın',
+      version: 'Sürüm',
+      installer: 'Kurulum dosyası',
+      release: 'Yayın',
+      latestJson: 'latest.json',
+      signature: '.sig imzası',
+      openRelease: 'Yayını aç',
+      openFile: 'Dosyayı aç',
+      notAvailable: 'Bu yayında bulunamadı',
+      repository: 'Depo',
+      hashTitle: 'PowerShell ile SHA256 kontrolü',
+      hashText: 'İndirdikten sonra dosyanın bulunduğu klasörde PowerShell aç ve şunu çalıştır:',
+      hashHelp: 'Gösterilen değeri, varsa resmi yayında yayımlanan SHA256 ile karşılaştır. GitHub dosya için SHA256 özeti gösteriyorsa, bu sonuçla aynı olmalıdır.',
+      updaterTitle: 'Güncelleyici dosyaları',
+      updaterText: '.sig ve latest.json dosyaları imzalı güncelleyici tarafından kullanılır. Uygulamanın güncellemeleri doğrulamasına yardım ederler, ancak doğru kaynaktan indirme dikkatinin yerini almazlar.',
+      stepsTitle: 'Hızlı kontrol listesi',
+      steps: [
+        { title: '1. Kaynak', text: 'Yayının mnstechbr/KPassword deposuna ait olduğunu doğrula.' },
+        { title: '2. Ad', text: 'Dosyanın KPassword kurulum dosyasına benzediğini kontrol et, örneğin KPassword-Setup-v0.9.3.exe.' },
+        { title: '3. Hash', text: 'İndirilen dosyanın SHA256 değerini hesaplamak için PowerShell kullan.' },
+        { title: '4. Şüphe', text: 'Ad, hash veya kaynak uyuşmuyorsa kurma. Dosyayı sil ve resmi siteden ya da GitHub Releases sayfasından yeniden indir.' }
+      ],
+      warningTitle: 'Bilinmeyen kaynaklardan kaçın',
+      warningText: 'Mesajlar, forumlar, kısaltılmış bağlantılar veya üçüncü taraf sitelerden gelen dosyaları kurma. Bir şey resmi yayından farklı görünüyorsa, önce durup kontrol et.'
     },
     securityPolicy: {
       metaTitle: 'Güvenlik politikası',

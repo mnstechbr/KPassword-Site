@@ -22,6 +22,13 @@ const latest = releases.latestStable;
 const releaseUrl = repo.isConfigured ? (latest?.htmlUrl || links.latestRelease) : '';
 const releaseName = repo.isConfigured ? `${repo.owner}/${repo.name}` : t.download.repoMissing;
 const asset = latest?.asset;
+const releaseAssets = latest?.assets || [];
+const installerAsset = latest?.asset || releaseAssets.find((item) => /\.exe$/i.test(item.name));
+const signatureAsset = releaseAssets.find((item) => /\.sig$/i.test(item.name));
+const latestJsonAsset = releaseAssets.find((item) => /^latest\.json$/i.test(item.name));
+const installerDigest = installerAsset && 'digest' in installerAsset
+  ? (installerAsset as { digest?: string }).digest?.replace(/^sha256:/i, '')
+  : '';
 const fallbackDownloadUrl = repo.isConfigured ? (latest?.directDownloadUrl || links.latestRelease) : '';
 
 const meta = t[page] as { metaTitle?: string; metaDescription?: string };
@@ -129,6 +136,7 @@ const pageDescription = meta.metaDescription || undefined;
         <div class="notice">
           <strong>{t.download.howTitle}</strong>
           <p>{t.download.howTextBefore} <code>{releaseName}</code>. {t.download.howTextAfter} <code>{product.releaseAssetName}</code> {t.download.howTextFinal} <code>KPassword-Setup-v0.9.3.exe</code>.</p>
+          <a class="text-link" href={pathTo(getPath(locale, 'verifyDownload'))}>{t.download.verifyDownload}</a>
         </div>
       </section>
       <script is:inline>
@@ -237,7 +245,84 @@ const pageDescription = meta.metaDescription || undefined;
 
       <section class="section compact center-cta">
         <h2>{t.security.docsTitle}</h2>
-        <a class="button secondary" href={pathTo(getPath(locale, 'docs'))}>{t.security.docsButton}</a>
+        <div class="actions center-actions">
+          <a class="button secondary" href={pathTo(getPath(locale, 'docs'))}>{t.security.docsButton}</a>
+          <a class="button secondary" href={pathTo(getPath(locale, 'verifyDownload'))}>{t.security.verifyDownloadButton}</a>
+        </div>
+      </section>
+    </>
+  )}
+
+  {page === 'verifyDownload' && (
+    <>
+      <PageTitle label={t.verifyDownload.label} title={t.verifyDownload.title} description={t.verifyDownload.description} />
+
+      <section class="download-panel verify-release-panel">
+        <div>
+          <p class="label">{t.verifyDownload.sourceTitle}</p>
+          <h2>{t.verifyDownload.latestTitle}</h2>
+          <p>{t.verifyDownload.sourceText}</p>
+        </div>
+
+        <dl class="meta-list verify-meta">
+          <div><dt>{t.verifyDownload.repository}</dt><dd><code>{releaseName}</code></dd></div>
+          <div><dt>{t.verifyDownload.version}</dt><dd>{latest?.tagName || product.currentVersion}</dd></div>
+          <div>
+            <dt>{t.verifyDownload.installer}</dt>
+            <dd>{installerAsset?.browserDownloadUrl ? <a href={installerAsset.browserDownloadUrl}>{installerAsset.name}</a> : (installerAsset?.name || t.verifyDownload.notAvailable)}</dd>
+          </div>
+          <div>
+            <dt>{t.verifyDownload.release}</dt>
+            <dd>{releaseUrl ? <a href={releaseUrl}>{t.verifyDownload.openRelease}</a> : t.verifyDownload.notAvailable}</dd>
+          </div>
+          <div>
+            <dt>{t.verifyDownload.latestJson}</dt>
+            <dd>{latestJsonAsset?.browserDownloadUrl ? <a href={latestJsonAsset.browserDownloadUrl}>{t.verifyDownload.openFile}</a> : t.verifyDownload.notAvailable}</dd>
+          </div>
+          <div>
+            <dt>{t.verifyDownload.signature}</dt>
+            <dd>{signatureAsset?.browserDownloadUrl ? <a href={signatureAsset.browserDownloadUrl}>{signatureAsset.name}</a> : t.verifyDownload.notAvailable}</dd>
+          </div>
+          {installerDigest && <div><dt>SHA256</dt><dd><code>{installerDigest}</code></dd></div>}
+        </dl>
+      </section>
+
+      <section class="section compact">
+        <div class="grid verify-grid">
+          {t.verifyDownload.steps.map((step) => (
+            <article>
+              <h2>{step.title}</h2>
+              <p>{step.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section split-panel verify-command-panel">
+        <div>
+          <p class="label">SHA256</p>
+          <h2>{t.verifyDownload.hashTitle}</h2>
+          <p>{t.verifyDownload.hashText}</p>
+        </div>
+        <div>
+          <pre><code>Get-FileHash .\KPassword-Setup-v0.9.3.exe -Algorithm SHA256</code></pre>
+          <p>{t.verifyDownload.hashHelp}</p>
+        </div>
+      </section>
+
+      <section class="section split-panel verify-updater-panel">
+        <div>
+          <p class="label">.sig + latest.json</p>
+          <h2>{t.verifyDownload.updaterTitle}</h2>
+        </div>
+        <p>{t.verifyDownload.updaterText}</p>
+      </section>
+
+      <section class="section compact">
+        <div class="notice">
+          <strong>{t.verifyDownload.warningTitle}</strong>
+          <p>{t.verifyDownload.warningText}</p>
+        </div>
       </section>
     </>
   )}

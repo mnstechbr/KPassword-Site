@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T01:10:51.616Z",
+  "generatedAt": "2026-07-06T10:11:47.496Z",
   "source": "github-api",
   "repository": {
     "owner": "mnstechbr",
@@ -18,8 +18,9 @@
       {
         "name": "KPassword-Setup-v0.9.3.exe",
         "size": 5623772,
-        "downloadCount": 4,
+        "downloadCount": 5,
         "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+        "digest": "sha256:3aa76157e5dac20d78b7626578eb00833bd98fb5f4f1a895a31284952fb62cc1",
         "contentType": "application/x-msdownload",
         "updatedAt": "2026-07-05T00:51:59Z"
       },
@@ -28,6 +29,7 @@
         "size": 420,
         "downloadCount": 0,
         "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe.sig",
+        "digest": "sha256:ae84b73329be85c95423abc81284399d1d200958570d7825e98c26b226c47472",
         "contentType": "application/octet-stream",
         "updatedAt": "2026-07-05T00:51:59Z"
       },
@@ -36,6 +38,7 @@
         "size": 739,
         "downloadCount": 3,
         "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/latest.json",
+        "digest": "sha256:e215a8dda0881de4892ce7b7a5ae56e2c11076f5f7df4cbdd561f3acc3de9036",
         "contentType": "application/json",
         "updatedAt": "2026-07-05T00:51:59Z"
       }
@@ -44,8 +47,9 @@
     "asset": {
       "name": "KPassword-Setup-v0.9.3.exe",
       "size": 5623772,
-      "downloadCount": 4,
+      "downloadCount": 5,
       "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+      "digest": "sha256:3aa76157e5dac20d78b7626578eb00833bd98fb5f4f1a895a31284952fb62cc1",
       "contentType": "application/x-msdownload",
       "updatedAt": "2026-07-05T00:51:59Z"
     }
@@ -63,8 +67,9 @@
         {
           "name": "KPassword-Setup-v0.9.3.exe",
           "size": 5623772,
-          "downloadCount": 4,
+          "downloadCount": 5,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+          "digest": "sha256:3aa76157e5dac20d78b7626578eb00833bd98fb5f4f1a895a31284952fb62cc1",
           "contentType": "application/x-msdownload",
           "updatedAt": "2026-07-05T00:51:59Z"
         },
@@ -73,6 +78,7 @@
           "size": 420,
           "downloadCount": 0,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe.sig",
+          "digest": "sha256:ae84b73329be85c95423abc81284399d1d200958570d7825e98c26b226c47472",
           "contentType": "application/octet-stream",
           "updatedAt": "2026-07-05T00:51:59Z"
         },
@@ -81,6 +87,7 @@
           "size": 739,
           "downloadCount": 3,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/latest.json",
+          "digest": "sha256:e215a8dda0881de4892ce7b7a5ae56e2c11076f5f7df4cbdd561f3acc3de9036",
           "contentType": "application/json",
           "updatedAt": "2026-07-05T00:51:59Z"
         }
@@ -100,6 +107,7 @@
           "size": 5623649,
           "downloadCount": 2,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/KPassword-Setup-v0.9.2.exe",
+          "digest": "sha256:260e7268f6e46c5df08d2fa7e1b2c850250a7d3f649fb16b283ef94febf83aa5",
           "contentType": "application/x-msdownload",
           "updatedAt": "2026-07-05T00:02:00Z"
         },
@@ -108,6 +116,7 @@
           "size": 420,
           "downloadCount": 0,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/KPassword-Setup-v0.9.2.exe.sig",
+          "digest": "sha256:c5fb48b7d79770e0437af6f782af4e4e3e6ba8913d9bffd062825e94961c88f1",
           "contentType": "application/octet-stream",
           "updatedAt": "2026-07-05T00:02:00Z"
         },
@@ -116,6 +125,7 @@
           "size": 739,
           "downloadCount": 1,
           "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/latest.json",
+          "digest": "sha256:ff0dd557450462b38809bc4a41672cd7d6e53b15596919e307f6862ac50432c2",
           "contentType": "application/json",
           "updatedAt": "2026-07-05T00:02:01Z"
         }
