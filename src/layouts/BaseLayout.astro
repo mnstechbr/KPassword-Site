@@ -19,6 +19,8 @@ const t = content[locale];
 const title = Astro.props.title ? `${Astro.props.title} · ${product.name}` : `${product.name} · ${t.siteTitleSuffix}`;
 const description = Astro.props.description || t.siteDescription;
 const htmlLang = locales[locale].htmlLang;
+const siteOrigin = (Astro.site?.toString() || 'https://kpassword.vercel.app').replace(/\/$/, '');
+const ogImage = new URL(pathTo('/brand/app-icon.png'), `${siteOrigin}/`).toString();
 const alternateLocales = Object.values(locales).map((item) => ({
   htmlLang: item.htmlLang,
   href: pathTo(getPath(item.code as Locale, pageKey))
@@ -42,7 +44,7 @@ const alternateLocales = Object.values(locales).map((item) => ({
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={pathTo('/brand/app-icon.png')} />
+    <meta property="og:image" content={ogImage} />
   </head>
   <body>
     <div class="grain"></div>

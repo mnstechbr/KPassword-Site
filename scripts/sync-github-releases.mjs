@@ -5,6 +5,10 @@ import { dirname, resolve } from 'node:path';
 await loadDotEnv();
 
 const outputPath = resolve('src/data/releases.generated.json');
+const defaultReleaseRepository = {
+  owner: 'mnstechbr',
+  repo: 'KPassword'
+};
 const repository = parseRepository();
 const assetName = process.env.KPASSWORD_RELEASE_ASSET_NAME || 'KPassword-Setup.exe';
 
@@ -33,7 +37,7 @@ async function main() {
     repository,
     assetName,
     latestStable: latestStable ? withDownload(latestStable, repository, assetName) : null,
-    releases: normalized.slice(0, 20)
+    releases: normalized.slice(0, 2)
   };
 
   await mkdir(dirname(outputPath), { recursive: true });
@@ -52,16 +56,20 @@ function parseRepository() {
   const githubRepository = process.env.GITHUB_REPOSITORY;
   if (githubRepository?.includes('/')) {
     const [owner, repo] = githubRepository.split('/');
-    return { owner, repo };
+    if (!isWebsiteRepository(repo)) return { owner, repo };
   }
 
   for (const cwd of ['..', '.']) {
     const remote = readGitRemote(cwd);
     const parsed = parseGitHubRemote(remote);
-    if (parsed) return parsed;
+    if (parsed && !isWebsiteRepository(parsed.repo)) return parsed;
   }
 
-  return null;
+  return defaultReleaseRepository;
+}
+
+function isWebsiteRepository(repo) {
+  return /^KPassword-Site$/i.test(String(repo || ''));
 }
 
 function readGitRemote(cwd) {

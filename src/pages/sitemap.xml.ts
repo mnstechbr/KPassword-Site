@@ -6,7 +6,7 @@ const allPages = Object.keys(locales).flatMap((locale) => {
 });
 
 export function GET() {
-  const site = (import.meta.env.SITE || 'https://example.com').replace(/\/$/, '');
+  const site = (import.meta.env.SITE || 'https://kpassword.vercel.app').replace(/\/$/, '');
   const base = import.meta.env.BASE_URL || '/';
   const root = `${site}${base}`.replace(/\/$/, '');
   const urls = allPages

@@ -1,11 +1,125 @@
 {
-  "generatedAt": "2026-07-05T02:28:34.388Z",
+  "generatedAt": "2026-07-06T01:10:51.616Z",
   "source": "github-api",
   "repository": {
     "owner": "mnstechbr",
-    "repo": "KPassword-Site"
+    "repo": "KPassword"
   },
   "assetName": "KPassword-Setup.exe",
-  "latestStable": null,
-  "releases": []
+  "latestStable": {
+    "tagName": "v0.9.3",
+    "name": "KPassword v0.9.3",
+    "publishedAt": "2026-07-05T00:52:03Z",
+    "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.3",
+    "body": "# KPassword v0.9.3\r\n\r\nEsta versão aplica hardening final antes da candidata v1.0, com foco em segurança de arquivos de cofre, processo de release e limpeza técnica.\r\n\r\n## Melhorias de segurança\r\n\r\n- Adiciona limites máximos para parâmetros KDF vindos de arquivos `.kpvault`.\r\n- Protege contra cofres maliciosos tentando exigir memória ou tempo excessivo.\r\n- Limita parâmetros Argon2id aceitos:\r\n  - `memoryKiB` até `262144`\r\n  - `timeCost` até `10`\r\n  - `parallelism` até `4`\r\n- Limita PBKDF2 legado a até `2000000` iterações.\r\n- Adiciona testes para parâmetros KDF exagerados.\r\n- Valida os mesmos limites no frontend ao parsear arquivos de cofre.\r\n- Remove comando Tauri `greet`, que não era necessário.\r\n\r\n## Processo de release\r\n\r\n- Adiciona proteção no `.gitignore` para evitar commit acidental de cofres reais:\r\n  - `*.kpvault`\r\n  - `*.kphello`\r\n  - `backups/`\r\n  - `**/backups/`\r\n- Atualiza script de release para não usar mais `git add .`.\r\n- O script de release agora faz staging explícito de caminhos seguros.\r\n- O script bloqueia a release se encontrar cofres ou segredos locais dentro do projeto.\r\n\r\n## CSP e documentação\r\n\r\n- Restringe a CSP removendo canais locais desnecessários em produção.\r\n- Atualiza exemplos antigos de release para usar `<versao>`.\r\n- Corrige mojibake apenas em comentários CSS.\r\n\r\n## Segurança criptográfica\r\n\r\nEsta versão não altera o núcleo criptográfico introduzido na v0.9.0.\r\n\r\nContinuam mantidos:\r\n\r\n- Argon2id\r\n- AES-256-GCM\r\n- `cryptoVersion 2`\r\n- AAD para metadados autenticados\r\n- backup pré-migração\r\n- compatibilidade com backups legados\r\n\r\n## Validação\r\n\r\n- `npm run build`: aprovado\r\n- `cargo check`: aprovado\r\n- `cargo test`: aprovado\r\n- `npm run security:audit`: aprovado\r\n- App validado em modo desenvolvimento\r\n- Cofre existente validado\r\n- Backup/restauração, clipboard, autolock e bandeja/notificação preservados\r\n\r\n## Arquivos\r\n\r\nInclui:\r\n\r\n- Instalador Windows\r\n- Assinatura do instalador\r\n- `latest.json` para atualização automática",
+    "prerelease": false,
+    "draft": false,
+    "assets": [
+      {
+        "name": "KPassword-Setup-v0.9.3.exe",
+        "size": 5623772,
+        "downloadCount": 4,
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+        "contentType": "application/x-msdownload",
+        "updatedAt": "2026-07-05T00:51:59Z"
+      },
+      {
+        "name": "KPassword-Setup-v0.9.3.exe.sig",
+        "size": 420,
+        "downloadCount": 0,
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe.sig",
+        "contentType": "application/octet-stream",
+        "updatedAt": "2026-07-05T00:51:59Z"
+      },
+      {
+        "name": "latest.json",
+        "size": 739,
+        "downloadCount": 3,
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/latest.json",
+        "contentType": "application/json",
+        "updatedAt": "2026-07-05T00:51:59Z"
+      }
+    ],
+    "directDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+    "asset": {
+      "name": "KPassword-Setup-v0.9.3.exe",
+      "size": 5623772,
+      "downloadCount": 4,
+      "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+      "contentType": "application/x-msdownload",
+      "updatedAt": "2026-07-05T00:51:59Z"
+    }
+  },
+  "releases": [
+    {
+      "tagName": "v0.9.3",
+      "name": "KPassword v0.9.3",
+      "publishedAt": "2026-07-05T00:52:03Z",
+      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.3",
+      "body": "# KPassword v0.9.3\r\n\r\nEsta versão aplica hardening final antes da candidata v1.0, com foco em segurança de arquivos de cofre, processo de release e limpeza técnica.\r\n\r\n## Melhorias de segurança\r\n\r\n- Adiciona limites máximos para parâmetros KDF vindos de arquivos `.kpvault`.\r\n- Protege contra cofres maliciosos tentando exigir memória ou tempo excessivo.\r\n- Limita parâmetros Argon2id aceitos:\r\n  - `memoryKiB` até `262144`\r\n  - `timeCost` até `10`\r\n  - `parallelism` até `4`\r\n- Limita PBKDF2 legado a até `2000000` iterações.\r\n- Adiciona testes para parâmetros KDF exagerados.\r\n- Valida os mesmos limites no frontend ao parsear arquivos de cofre.\r\n- Remove comando Tauri `greet`, que não era necessário.\r\n\r\n## Processo de release\r\n\r\n- Adiciona proteção no `.gitignore` para evitar commit acidental de cofres reais:\r\n  - `*.kpvault`\r\n  - `*.kphello`\r\n  - `backups/`\r\n  - `**/backups/`\r\n- Atualiza script de release para não usar mais `git add .`.\r\n- O script de release agora faz staging explícito de caminhos seguros.\r\n- O script bloqueia a release se encontrar cofres ou segredos locais dentro do projeto.\r\n\r\n## CSP e documentação\r\n\r\n- Restringe a CSP removendo canais locais desnecessários em produção.\r\n- Atualiza exemplos antigos de release para usar `<versao>`.\r\n- Corrige mojibake apenas em comentários CSS.\r\n\r\n## Segurança criptográfica\r\n\r\nEsta versão não altera o núcleo criptográfico introduzido na v0.9.0.\r\n\r\nContinuam mantidos:\r\n\r\n- Argon2id\r\n- AES-256-GCM\r\n- `cryptoVersion 2`\r\n- AAD para metadados autenticados\r\n- backup pré-migração\r\n- compatibilidade com backups legados\r\n\r\n## Validação\r\n\r\n- `npm run build`: aprovado\r\n- `cargo check`: aprovado\r\n- `cargo test`: aprovado\r\n- `npm run security:audit`: aprovado\r\n- App validado em modo desenvolvimento\r\n- Cofre existente validado\r\n- Backup/restauração, clipboard, autolock e bandeja/notificação preservados\r\n\r\n## Arquivos\r\n\r\nInclui:\r\n\r\n- Instalador Windows\r\n- Assinatura do instalador\r\n- `latest.json` para atualização automática",
+      "prerelease": false,
+      "draft": false,
+      "assets": [
+        {
+          "name": "KPassword-Setup-v0.9.3.exe",
+          "size": 5623772,
+          "downloadCount": 4,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe",
+          "contentType": "application/x-msdownload",
+          "updatedAt": "2026-07-05T00:51:59Z"
+        },
+        {
+          "name": "KPassword-Setup-v0.9.3.exe.sig",
+          "size": 420,
+          "downloadCount": 0,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/KPassword-Setup-v0.9.3.exe.sig",
+          "contentType": "application/octet-stream",
+          "updatedAt": "2026-07-05T00:51:59Z"
+        },
+        {
+          "name": "latest.json",
+          "size": 739,
+          "downloadCount": 3,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.3/latest.json",
+          "contentType": "application/json",
+          "updatedAt": "2026-07-05T00:51:59Z"
+        }
+      ]
+    },
+    {
+      "tagName": "v0.9.2",
+      "name": "KPassword v0.9.2",
+      "publishedAt": "2026-07-05T00:02:03Z",
+      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.2",
+      "body": "# KPassword v0.9.2\r\n\r\nEsta versão melhora a experiência visual das telas internas do KPassword e corrige o comportamento de notificação ao proteger o app na bandeja do sistema.\r\n\r\n## Melhorias\r\n\r\n- Corrige a notificação nativa ao fechar, minimizar ou bloquear o app por inatividade.\r\n- Mantém o som curto de proteção ao enviar o app para a bandeja.\r\n- Aumenta a presença do som de proteção.\r\n- Refina o visual das páginas internas para ficar mais consistente com a tela de login.\r\n- Reduz o tamanho visual de cards, listas, chips e indicadores.\r\n- Mantém o menu lateral/inferior preservado.\r\n- Limita a lista de backups automáticos aos 3 backups mais recentes.\r\n- Adiciona indicação de que o histórico completo continua disponível na pasta de backups.\r\n\r\n## Backups\r\n\r\nA tela passa a exibir somente os 3 backups automáticos mais recentes, evitando que a página fique ocupada por uma lista muito longa.\r\n\r\nO histórico completo permanece disponível pelo botão de abrir a pasta de backups.\r\n\r\n## Segurança\r\n\r\nEsta versão não altera o núcleo criptográfico introduzido na v0.9.0.\r\n\r\nContinuam mantidos:\r\n\r\n- Argon2id\r\n- AES-256-GCM\r\n- `cryptoVersion 2`\r\n- AAD para metadados autenticados\r\n- backup pré-migração\r\n- compatibilidade com backups legados\r\n\r\n## Validação\r\n\r\n- `npm run build`: aprovado\r\n- `cargo check`: aprovado\r\n- `cargo test`: aprovado\r\n- App validado em modo desenvolvimento\r\n- Notificação e som testados\r\n- Lista de backups recentes validada\r\n\r\n## Arquivos\r\n\r\nInclui:\r\n\r\n- Instalador Windows\r\n- Assinatura do instalador\r\n- `latest.json` para atualização automática",
+      "prerelease": false,
+      "draft": false,
+      "assets": [
+        {
+          "name": "KPassword-Setup-v0.9.2.exe",
+          "size": 5623649,
+          "downloadCount": 2,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/KPassword-Setup-v0.9.2.exe",
+          "contentType": "application/x-msdownload",
+          "updatedAt": "2026-07-05T00:02:00Z"
+        },
+        {
+          "name": "KPassword-Setup-v0.9.2.exe.sig",
+          "size": 420,
+          "downloadCount": 0,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/KPassword-Setup-v0.9.2.exe.sig",
+          "contentType": "application/octet-stream",
+          "updatedAt": "2026-07-05T00:02:00Z"
+        },
+        {
+          "name": "latest.json",
+          "size": 739,
+          "downloadCount": 1,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.2/latest.json",
+          "contentType": "application/json",
+          "updatedAt": "2026-07-05T00:02:01Z"
+        }
+      ]
+    }
+  ]
 }
