@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T14:10:36.348Z",
+  "generatedAt": "2026-07-08T11:06:09.047Z",
   "source": "github-api",
   "repository": {
     "owner": "mnstechbr",
@@ -7,154 +7,154 @@
   },
   "assetName": "KPassword-Setup.exe",
   "latestStable": {
-    "tagName": "v0.9.5",
-    "name": "KPassword v0.9.5 - Organização, importação CSV e filtros do cofre",
-    "publishedAt": "2026-07-06T13:57:25Z",
-    "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.5",
-    "body": "## KPassword v0.9.5\r\n\r\nEsta versão foca em organização do cofre, importação de credenciais e melhorias de usabilidade na navegação das credenciais.\r\n\r\nO KPassword continua sendo um gerenciador de senhas local/offline, sem conta obrigatória e sem nuvem obrigatória.\r\n\r\n## Novidades\r\n\r\n### Importação CSV com prévia\r\n\r\nA importação CSV agora ficou mais segura e controlada:\r\n\r\n- Prévia dos dados antes de importar\r\n- Mapeamento de colunas\r\n- Validação de linhas\r\n- Detecção básica de duplicados\r\n- Opção para importar ou ignorar duplicados\r\n- Confirmação antes de gravar no cofre\r\n- Modal dedicado para revisar a importação\r\n\r\n### Exportação CSV com aviso de risco\r\n\r\nA exportação CSV foi ajustada para deixar claro que CSV não é backup seguro.\r\n\r\n- CSV é tratado como formato de migração\r\n- Aviso explícito de que o arquivo exportado não é criptografado\r\n- Confirmação obrigatória antes da exportação\r\n- Exigência da senha mestra\r\n- Nome do arquivo exportado indica que o CSV não é criptografado\r\n\r\nPara backup seguro, continue usando o backup criptografado `.kpvault`.\r\n\r\n### Tags básicas\r\n\r\nAgora é possível organizar credenciais com tags.\r\n\r\n- Campo de tags ao criar ou editar credenciais\r\n- Tags visíveis na lista e no detalhe da credencial\r\n- Clique em uma tag para filtrar o cofre\r\n- Busca também considera tags\r\n- Importação CSV aceita coluna de tags\r\n- Exportação CSV inclui coluna de tags\r\n\r\n### Filtros rápidos do cofre\r\n\r\nA tela de credenciais recebeu filtros rápidos em formato de dropdown, mantendo a interface mais limpa.\r\n\r\nFiltros disponíveis:\r\n\r\n- Todos\r\n- Favoritos\r\n- Fracas\r\n- Reutilizadas\r\n- Antigas\r\n- Vencidas\r\n- Vencendo\r\n- Sem TOTP\r\n- Incompletas\r\n- Com tags\r\n\r\nO botão de filtros fica alinhado à barra de pesquisa e mostra o filtro ativo quando aplicado.\r\n\r\n### Melhorias visuais\r\n\r\n- Layout do cofre menos congestionado\r\n- Filtros rápidos compactados em dropdown\r\n- Ajuste visual do botão de filtros\r\n- Melhor alinhamento com a barra de pesquisa\r\n- Tags mais discretas na tela de credenciais\r\n- Ajustes em tema claro, escuro e misto\r\n\r\n## Segurança e compatibilidade\r\n\r\n- Não houve mudança no formato criptográfico do cofre\r\n- Não houve alteração no núcleo de criptografia\r\n- Não há migração obrigatória do cofre\r\n- Backups criptografados anteriores continuam compatíveis\r\n- A atualização mantém o foco em uso local/offline\r\n\r\n## Arquivos da release\r\n\r\nInclua os seguintes arquivos nesta release:\r\n\r\n- `KPassword-Setup-v0.9.5.exe`\r\n- `KPassword-Setup-v0.9.5.exe.sig`\r\n- `latest.json`\r\n- `SHA256SUMS.txt`\r\n\r\n## Verificação\r\n\r\nApós baixar, é possível conferir a integridade do instalador usando o arquivo `SHA256SUMS.txt`.\r\n\r\nNo PowerShell:\r\n\r\n```powershell\r\nGet-FileHash .\\KPassword-Setup-v0.9.5.exe -Algorithm SHA256",
+    "tagName": "v1.3.0",
+    "name": "KPassword v1.3.0 - Histórico de ações",
+    "publishedAt": "2026-07-07T18:22:07Z",
+    "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v1.3.0",
+    "body": "## KPassword v1.3.0 - Histórico de ações\r\n\r\nEsta versão adiciona o novo Histórico de Ações do KPassword, permitindo visualizar eventos recentes do cofre de forma simples, organizada e segura.\r\n\r\nO recurso fica disponível em Configurações, dentro da área de Segurança & backup, por meio do botão \"Ver histórico\". Ao abrir, o usuário encontra um popup com os eventos agrupados por data e filtros por tipo de ação.\r\n\r\n## Novidades\r\n\r\n- Adicionado Histórico de Ações em Configurações.\r\n- Novo popup/modal para visualizar eventos recentes do app.\r\n- Histórico agrupado por data.\r\n- Filtros por categoria:\r\n  - Todos\r\n  - Credenciais\r\n  - Segurança\r\n  - Sistema\r\n- Opção para limpar o histórico com confirmação.\r\n- Registro de ações importantes do cofre, como:\r\n  - credencial criada;\r\n  - credencial editada;\r\n  - credencial enviada para lixeira;\r\n  - credencial restaurada;\r\n  - credencial excluída definitivamente;\r\n  - senha copiada;\r\n  - login/desbloqueio;\r\n  - bloqueio do cofre;\r\n  - alteração relevante em configurações.\r\n\r\n## Segurança\r\n\r\nO Histórico de Ações foi criado para registrar apenas eventos operacionais seguros.\r\n\r\nEle não armazena:\r\n\r\n- senhas;\r\n- códigos TOTP;\r\n- anexos;\r\n- valores antigos;\r\n- valores novos;\r\n- conteúdo sensível de credenciais.\r\n\r\nAs informações do histórico ficam salvas junto ao cofre criptografado, seguindo o mesmo modelo de proteção local do KPassword.\r\n\r\n## Melhorias de experiência\r\n\r\n- A página de Configurações continua limpa e simples.\r\n- O histórico aparece em popup, sem transformar Configurações em uma tela grande demais.\r\n- Layout ajustado para janela maximizada e janela menor.\r\n- Compatível com os temas escuro, claro e misto.\r\n\r\n## Arquivos do release\r\n\r\nEnvie para este release:\r\n\r\n- KPassword-Setup-v1.3.0.exe\r\n- KPassword-Setup-v1.3.0.exe.sig\r\n- latest.json\r\n- SHA256SUMS.txt\r\n\r\nNão envie:\r\n\r\n- UPLOAD_NO_GITHUB.txt",
     "prerelease": false,
     "draft": false,
     "assets": [
       {
-        "name": "KPassword-Setup-v0.9.5.exe",
-        "size": 5637205,
-        "downloadCount": 1,
-        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe",
-        "digest": "sha256:7881ec8991dcbdf89ae09461680c4be45d8d484b2e0ab9093a8232e847a42270",
+        "name": "KPassword-Setup-v1.3.0.exe",
+        "size": 6480354,
+        "downloadCount": 2,
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe",
+        "digest": "sha256:b3b323da17f7dbb442a705facd82b59431aae8fc801a56c4b9a1cbe54df8e65d",
         "contentType": "application/x-msdownload",
-        "updatedAt": "2026-07-06T13:50:59Z"
+        "updatedAt": "2026-07-07T18:22:02Z"
       },
       {
-        "name": "KPassword-Setup-v0.9.5.exe.sig",
+        "name": "KPassword-Setup-v1.3.0.exe.sig",
         "size": 420,
         "downloadCount": 0,
-        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe.sig",
-        "digest": "sha256:95336ed2d1be87540f56057ed13439ed854c76f45d848d5cffddf94b205606bc",
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe.sig",
+        "digest": "sha256:ed573f8392261350edc1dbb89ecceedf4a9edbcf568089a5aef174638d7f370c",
         "contentType": "application/octet-stream",
-        "updatedAt": "2026-07-06T13:50:59Z"
+        "updatedAt": "2026-07-07T18:22:03Z"
       },
       {
         "name": "latest.json",
         "size": 739,
-        "downloadCount": 1,
-        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/latest.json",
-        "digest": "sha256:cdd66742414ee221312093776e3a533351af043c36bf59f41916cec985f93b81",
+        "downloadCount": 2,
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/latest.json",
+        "digest": "sha256:a75c7e3834f58513733aa75c5986edc2f7f4b2f7208633785b79d84adb488ec7",
         "contentType": "application/json",
-        "updatedAt": "2026-07-06T13:51:00Z"
+        "updatedAt": "2026-07-07T18:22:03Z"
       },
       {
         "name": "SHA256SUMS.txt",
         "size": 271,
         "downloadCount": 0,
-        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/SHA256SUMS.txt",
-        "digest": "sha256:4af76c87c8a5fa111e09cd2bf752e5854093de0f00927f778776d7ed58ab3287",
+        "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/SHA256SUMS.txt",
+        "digest": "sha256:dd31df9054a6cad490ece515a7e18b02bc4591678852e5638fc75ac96c979dce",
         "contentType": "text/plain",
-        "updatedAt": "2026-07-06T13:57:21Z"
+        "updatedAt": "2026-07-07T18:22:03Z"
       }
     ],
-    "directDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe",
+    "directDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe",
     "asset": {
-      "name": "KPassword-Setup-v0.9.5.exe",
-      "size": 5637205,
-      "downloadCount": 1,
-      "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe",
-      "digest": "sha256:7881ec8991dcbdf89ae09461680c4be45d8d484b2e0ab9093a8232e847a42270",
+      "name": "KPassword-Setup-v1.3.0.exe",
+      "size": 6480354,
+      "downloadCount": 2,
+      "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe",
+      "digest": "sha256:b3b323da17f7dbb442a705facd82b59431aae8fc801a56c4b9a1cbe54df8e65d",
       "contentType": "application/x-msdownload",
-      "updatedAt": "2026-07-06T13:50:59Z"
+      "updatedAt": "2026-07-07T18:22:02Z"
     }
   },
   "releases": [
     {
-      "tagName": "v0.9.5",
-      "name": "KPassword v0.9.5 - Organização, importação CSV e filtros do cofre",
-      "publishedAt": "2026-07-06T13:57:25Z",
-      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.5",
-      "body": "## KPassword v0.9.5\r\n\r\nEsta versão foca em organização do cofre, importação de credenciais e melhorias de usabilidade na navegação das credenciais.\r\n\r\nO KPassword continua sendo um gerenciador de senhas local/offline, sem conta obrigatória e sem nuvem obrigatória.\r\n\r\n## Novidades\r\n\r\n### Importação CSV com prévia\r\n\r\nA importação CSV agora ficou mais segura e controlada:\r\n\r\n- Prévia dos dados antes de importar\r\n- Mapeamento de colunas\r\n- Validação de linhas\r\n- Detecção básica de duplicados\r\n- Opção para importar ou ignorar duplicados\r\n- Confirmação antes de gravar no cofre\r\n- Modal dedicado para revisar a importação\r\n\r\n### Exportação CSV com aviso de risco\r\n\r\nA exportação CSV foi ajustada para deixar claro que CSV não é backup seguro.\r\n\r\n- CSV é tratado como formato de migração\r\n- Aviso explícito de que o arquivo exportado não é criptografado\r\n- Confirmação obrigatória antes da exportação\r\n- Exigência da senha mestra\r\n- Nome do arquivo exportado indica que o CSV não é criptografado\r\n\r\nPara backup seguro, continue usando o backup criptografado `.kpvault`.\r\n\r\n### Tags básicas\r\n\r\nAgora é possível organizar credenciais com tags.\r\n\r\n- Campo de tags ao criar ou editar credenciais\r\n- Tags visíveis na lista e no detalhe da credencial\r\n- Clique em uma tag para filtrar o cofre\r\n- Busca também considera tags\r\n- Importação CSV aceita coluna de tags\r\n- Exportação CSV inclui coluna de tags\r\n\r\n### Filtros rápidos do cofre\r\n\r\nA tela de credenciais recebeu filtros rápidos em formato de dropdown, mantendo a interface mais limpa.\r\n\r\nFiltros disponíveis:\r\n\r\n- Todos\r\n- Favoritos\r\n- Fracas\r\n- Reutilizadas\r\n- Antigas\r\n- Vencidas\r\n- Vencendo\r\n- Sem TOTP\r\n- Incompletas\r\n- Com tags\r\n\r\nO botão de filtros fica alinhado à barra de pesquisa e mostra o filtro ativo quando aplicado.\r\n\r\n### Melhorias visuais\r\n\r\n- Layout do cofre menos congestionado\r\n- Filtros rápidos compactados em dropdown\r\n- Ajuste visual do botão de filtros\r\n- Melhor alinhamento com a barra de pesquisa\r\n- Tags mais discretas na tela de credenciais\r\n- Ajustes em tema claro, escuro e misto\r\n\r\n## Segurança e compatibilidade\r\n\r\n- Não houve mudança no formato criptográfico do cofre\r\n- Não houve alteração no núcleo de criptografia\r\n- Não há migração obrigatória do cofre\r\n- Backups criptografados anteriores continuam compatíveis\r\n- A atualização mantém o foco em uso local/offline\r\n\r\n## Arquivos da release\r\n\r\nInclua os seguintes arquivos nesta release:\r\n\r\n- `KPassword-Setup-v0.9.5.exe`\r\n- `KPassword-Setup-v0.9.5.exe.sig`\r\n- `latest.json`\r\n- `SHA256SUMS.txt`\r\n\r\n## Verificação\r\n\r\nApós baixar, é possível conferir a integridade do instalador usando o arquivo `SHA256SUMS.txt`.\r\n\r\nNo PowerShell:\r\n\r\n```powershell\r\nGet-FileHash .\\KPassword-Setup-v0.9.5.exe -Algorithm SHA256",
+      "tagName": "v1.3.0",
+      "name": "KPassword v1.3.0 - Histórico de ações",
+      "publishedAt": "2026-07-07T18:22:07Z",
+      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v1.3.0",
+      "body": "## KPassword v1.3.0 - Histórico de ações\r\n\r\nEsta versão adiciona o novo Histórico de Ações do KPassword, permitindo visualizar eventos recentes do cofre de forma simples, organizada e segura.\r\n\r\nO recurso fica disponível em Configurações, dentro da área de Segurança & backup, por meio do botão \"Ver histórico\". Ao abrir, o usuário encontra um popup com os eventos agrupados por data e filtros por tipo de ação.\r\n\r\n## Novidades\r\n\r\n- Adicionado Histórico de Ações em Configurações.\r\n- Novo popup/modal para visualizar eventos recentes do app.\r\n- Histórico agrupado por data.\r\n- Filtros por categoria:\r\n  - Todos\r\n  - Credenciais\r\n  - Segurança\r\n  - Sistema\r\n- Opção para limpar o histórico com confirmação.\r\n- Registro de ações importantes do cofre, como:\r\n  - credencial criada;\r\n  - credencial editada;\r\n  - credencial enviada para lixeira;\r\n  - credencial restaurada;\r\n  - credencial excluída definitivamente;\r\n  - senha copiada;\r\n  - login/desbloqueio;\r\n  - bloqueio do cofre;\r\n  - alteração relevante em configurações.\r\n\r\n## Segurança\r\n\r\nO Histórico de Ações foi criado para registrar apenas eventos operacionais seguros.\r\n\r\nEle não armazena:\r\n\r\n- senhas;\r\n- códigos TOTP;\r\n- anexos;\r\n- valores antigos;\r\n- valores novos;\r\n- conteúdo sensível de credenciais.\r\n\r\nAs informações do histórico ficam salvas junto ao cofre criptografado, seguindo o mesmo modelo de proteção local do KPassword.\r\n\r\n## Melhorias de experiência\r\n\r\n- A página de Configurações continua limpa e simples.\r\n- O histórico aparece em popup, sem transformar Configurações em uma tela grande demais.\r\n- Layout ajustado para janela maximizada e janela menor.\r\n- Compatível com os temas escuro, claro e misto.\r\n\r\n## Arquivos do release\r\n\r\nEnvie para este release:\r\n\r\n- KPassword-Setup-v1.3.0.exe\r\n- KPassword-Setup-v1.3.0.exe.sig\r\n- latest.json\r\n- SHA256SUMS.txt\r\n\r\nNão envie:\r\n\r\n- UPLOAD_NO_GITHUB.txt",
       "prerelease": false,
       "draft": false,
       "assets": [
         {
-          "name": "KPassword-Setup-v0.9.5.exe",
-          "size": 5637205,
-          "downloadCount": 1,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe",
-          "digest": "sha256:7881ec8991dcbdf89ae09461680c4be45d8d484b2e0ab9093a8232e847a42270",
+          "name": "KPassword-Setup-v1.3.0.exe",
+          "size": 6480354,
+          "downloadCount": 2,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe",
+          "digest": "sha256:b3b323da17f7dbb442a705facd82b59431aae8fc801a56c4b9a1cbe54df8e65d",
           "contentType": "application/x-msdownload",
-          "updatedAt": "2026-07-06T13:50:59Z"
+          "updatedAt": "2026-07-07T18:22:02Z"
         },
         {
-          "name": "KPassword-Setup-v0.9.5.exe.sig",
+          "name": "KPassword-Setup-v1.3.0.exe.sig",
           "size": 420,
           "downloadCount": 0,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/KPassword-Setup-v0.9.5.exe.sig",
-          "digest": "sha256:95336ed2d1be87540f56057ed13439ed854c76f45d848d5cffddf94b205606bc",
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/KPassword-Setup-v1.3.0.exe.sig",
+          "digest": "sha256:ed573f8392261350edc1dbb89ecceedf4a9edbcf568089a5aef174638d7f370c",
           "contentType": "application/octet-stream",
-          "updatedAt": "2026-07-06T13:50:59Z"
+          "updatedAt": "2026-07-07T18:22:03Z"
+        },
+        {
+          "name": "latest.json",
+          "size": 739,
+          "downloadCount": 2,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/latest.json",
+          "digest": "sha256:a75c7e3834f58513733aa75c5986edc2f7f4b2f7208633785b79d84adb488ec7",
+          "contentType": "application/json",
+          "updatedAt": "2026-07-07T18:22:03Z"
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "size": 271,
+          "downloadCount": 0,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.3.0/SHA256SUMS.txt",
+          "digest": "sha256:dd31df9054a6cad490ece515a7e18b02bc4591678852e5638fc75ac96c979dce",
+          "contentType": "text/plain",
+          "updatedAt": "2026-07-07T18:22:03Z"
+        }
+      ]
+    },
+    {
+      "tagName": "v1.2.0",
+      "name": "KPassword v1.2.0 - Interface mais simples e cofre mais claro",
+      "publishedAt": "2026-07-07T13:13:52Z",
+      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v1.2.0",
+      "body": "## KPassword v1.2.0\r\n\r\nEsta versão traz um polimento importante na interface do KPassword, com foco em reduzir ruído visual, organizar melhor as ações e deixar o uso diário mais claro.\r\n\r\nO KPassword continua sendo um gerenciador de senhas local/offline, sem conta obrigatória e sem nuvem obrigatória.\r\n\r\n## Destaques\r\n\r\n### Interface mais simples\r\n\r\nA v1.2.0 reorganiza partes da interface para deixar as ações importantes mais fáceis de encontrar, sem criar telas novas ou esconder funções úteis atrás de cliques extras.\r\n\r\n- Menos poluição visual\r\n- Espaçamentos mais proporcionais\r\n- Ações frequentes mantidas visíveis\r\n- Ações avançadas agrupadas com mais critério\r\n- Melhor leitura em janelas menores\r\n- Melhor equilíbrio visual entre cards, botões e blocos de conteúdo\r\n\r\n### Cofre mais claro\r\n\r\nA lista do Cofre foi mantida com ações diretas, evitando menus desnecessários para tarefas comuns.\r\n\r\n- Copiar usuário e senha continuam acessíveis\r\n- Abrir site continua direto\r\n- Editar e ações principais continuam fáceis de alcançar\r\n- Menos sensação de tela carregada\r\n- Melhor consistência com o restante do app\r\n\r\n### Assistente do Cofre mais compacto\r\n\r\nO Assistente recebeu ajustes visuais para ficar mais proporcional ao conteúdo.\r\n\r\n- Card de saúde mais compacto\r\n- Menos espaço vazio no topo\r\n- Cards com melhor densidade visual\r\n- Fila de ações mais equilibrada\r\n- Botões e blocos com aparência menos exagerada\r\n\r\n### Configurações mais organizadas\r\n\r\nA área de Configurações foi ajustada para seguir uma regra mais clara:\r\n\r\n> Ação frequente fica visível.  \r\n> Ação rara ou sensível fica em opções avançadas.\r\n\r\nCom isso, Segurança & backup ficam mais limpos sem esconder o que é importante no uso diário.\r\n\r\n## O que não mudou\r\n\r\nEsta versão não altera a base sensível do KPassword:\r\n\r\n- Não muda o formato do cofre\r\n- Não muda a criptografia\r\n- Não exige migração do cofre\r\n- Não altera o modelo de backup criptografado\r\n- Não muda estruturalmente o updater\r\n- Não adiciona dependência de nuvem\r\n- Não cria tela nova\r\n\r\nCofres e backups anteriores continuam compatíveis.\r\n\r\n## Melhorias incluídas desde a v1.1.x\r\n\r\nA série v1.1 trouxe:\r\n\r\n- Assistente do Cofre\r\n- 2FA/TOTP mais prático\r\n- Leitura local de QR Code\r\n- Importação de QR Code por print/imagem\r\n- Seleção de QR Code na tela\r\n- Prévia obrigatória antes de salvar 2FA\r\n- Melhor tratamento de CSV, QR e backup na v1.1.1\r\n\r\n## Arquivos da release\r\n\r\nInclua os seguintes arquivos nesta release:\r\n\r\n- `KPassword-Setup-v1.2.0.exe`\r\n- `KPassword-Setup-v1.2.0.exe.sig`\r\n- `latest.json`\r\n- `SHA256SUMS.txt`\r\n\r\nNão envie arquivos auxiliares locais, como `UPLOAD_NO_GITHUB.txt`, caso existam.\r\n\r\n## Verificação\r\n\r\nApós baixar, é possível conferir a integridade do instalador usando o arquivo `SHA256SUMS.txt`.\r\n\r\nNo PowerShell:\r\n\r\n```powershell\r\nGet-FileHash .\\KPassword-Setup-v1.2.0.exe -Algorithm SHA256",
+      "prerelease": false,
+      "draft": false,
+      "assets": [
+        {
+          "name": "KPassword-Setup-v1.2.0.exe",
+          "size": 6476574,
+          "downloadCount": 1,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.2.0/KPassword-Setup-v1.2.0.exe",
+          "digest": "sha256:76ce8492dd191ab09a8101c24f30cb49ea56d50c8be3e31b0913d22fa20cb543",
+          "contentType": "application/x-msdownload",
+          "updatedAt": "2026-07-07T13:13:46Z"
+        },
+        {
+          "name": "KPassword-Setup-v1.2.0.exe.sig",
+          "size": 420,
+          "downloadCount": 0,
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.2.0/KPassword-Setup-v1.2.0.exe.sig",
+          "digest": "sha256:aeba2ee2c78c2acb33593edda788649bc514f731a7db3e3399e006af913e0bb2",
+          "contentType": "application/octet-stream",
+          "updatedAt": "2026-07-07T13:13:47Z"
         },
         {
           "name": "latest.json",
           "size": 739,
           "downloadCount": 1,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/latest.json",
-          "digest": "sha256:cdd66742414ee221312093776e3a533351af043c36bf59f41916cec985f93b81",
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.2.0/latest.json",
+          "digest": "sha256:2703ca2189fb80d5f5b815ee0dbffb8893dfcb0143b6ac408fb95f43a6ccd1c2",
           "contentType": "application/json",
-          "updatedAt": "2026-07-06T13:51:00Z"
+          "updatedAt": "2026-07-07T13:13:47Z"
         },
         {
           "name": "SHA256SUMS.txt",
           "size": 271,
           "downloadCount": 0,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.5/SHA256SUMS.txt",
-          "digest": "sha256:4af76c87c8a5fa111e09cd2bf752e5854093de0f00927f778776d7ed58ab3287",
+          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v1.2.0/SHA256SUMS.txt",
+          "digest": "sha256:e27419017f228e40eee0e6d24771efcdf37a532c020b261a7e1d52650cacafc2",
           "contentType": "text/plain",
-          "updatedAt": "2026-07-06T13:57:21Z"
-        }
-      ]
-    },
-    {
-      "tagName": "v0.9.4",
-      "name": "KPassword v0.9.4 - Confiança, backup e verificação de release",
-      "publishedAt": "2026-07-06T11:21:49Z",
-      "htmlUrl": "https://github.com/mnstechbr/KPassword/releases/tag/v0.9.4",
-      "body": "## KPassword v0.9.4\r\n\r\nEsta versão reforça o foco do KPassword em uso local/offline, transparência e segurança operacional.  \r\nNão houve alteração no formato do cofre nem no núcleo criptográfico.\r\n\r\n### Novidades\r\n\r\n- Adicionada a opção **Verificar backup**.\r\n  - Permite testar um arquivo de backup criptografado sem restaurar.\r\n  - Valida formato, versão, descriptografia e estrutura básica.\r\n  - Não substitui, não sobrescreve e não altera o cofre atual.\r\n\r\n- Melhorado o **Diagnóstico do Cofre**.\r\n  - Alertas agora exibem explicações curtas.\r\n  - Cada alerta traz uma ação sugerida.\r\n  - Cobertura para senhas fracas, reutilizadas, antigas, vencidas, próximas do vencimento, credenciais sem TOTP e itens incompletos.\r\n\r\n- Adicionado fluxo de validação de release.\r\n  - Validação local de instalador, assinatura `.sig`, `latest.json` e arquivos sensíveis.\r\n  - Geração de `SHA256SUMS.txt`.\r\n  - Verificação final concluída com **0 erros e 0 avisos**.\r\n\r\n- Documentação revisada.\r\n  - Arquitetura e segurança atualizadas para refletir o núcleo criptográfico atual em Rust via Tauri.\r\n  - Checklist de release atualizado com validação de assets, hash SHA256 e testes finais.\r\n\r\n### Segurança e compatibilidade\r\n\r\n- O KPassword continua sendo um gerenciador de senhas local/offline para Windows.\r\n- Seus dados continuam armazenados localmente.\r\n- Não há conta obrigatória.\r\n- Não há nuvem obrigatória.\r\n- O formato atual do cofre foi preservado.\r\n- O núcleo criptográfico permanece baseado em Argon2id, AES-256-GCM, cryptoVersion 2 e AAD.\r\n\r\n### Arquivos desta versão\r\n\r\nInclua no release:\r\n\r\n- `KPassword-Setup-v0.9.4.exe`\r\n- `KPassword-Setup-v0.9.4.exe.sig`\r\n- `latest.json`\r\n- `SHA256SUMS.txt`\r\n\r\n### Verificação\r\n\r\nVocê pode conferir o hash SHA256 dos arquivos usando:\r\n\r\n```powershell\r\nGet-FileHash .\\KPassword-Setup-v0.9.4.exe -Algorithm SHA256",
-      "prerelease": false,
-      "draft": false,
-      "assets": [
-        {
-          "name": "KPassword-Setup-v0.9.4.exe",
-          "size": 5626824,
-          "downloadCount": 1,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.4/KPassword-Setup-v0.9.4.exe",
-          "digest": "sha256:854b86df73189ade8deffa9f1a2e9c283a700d16808a9a8af91c9cf34a0c1b19",
-          "contentType": "application/x-msdownload",
-          "updatedAt": "2026-07-06T11:46:34Z"
-        },
-        {
-          "name": "KPassword-Setup-v0.9.4.exe.sig",
-          "size": 420,
-          "downloadCount": 0,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.4/KPassword-Setup-v0.9.4.exe.sig",
-          "digest": "sha256:49b30a18866b2e7482a49904bfdfa4912cf9ba791e6f93439a16774282ee4c45",
-          "contentType": "application/octet-stream",
-          "updatedAt": "2026-07-06T11:46:35Z"
-        },
-        {
-          "name": "latest.json",
-          "size": 918,
-          "downloadCount": 1,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.4/latest.json",
-          "digest": "sha256:6982cb11e9fd3b8cd7d6eebbbcaa9e603539b385b5bd817810518f8b5c72c638",
-          "contentType": "application/json",
-          "updatedAt": "2026-07-06T11:46:57Z"
-        },
-        {
-          "name": "SHA256SUMS.txt",
-          "size": 271,
-          "downloadCount": 0,
-          "browserDownloadUrl": "https://github.com/mnstechbr/KPassword/releases/download/v0.9.4/SHA256SUMS.txt",
-          "digest": "sha256:83d0d95f7123765e813b80a48c10d04c297efce1146c853c6afccdb795679fde",
-          "contentType": "text/plain",
-          "updatedAt": "2026-07-06T11:46:58Z"
+          "updatedAt": "2026-07-07T13:13:48Z"
         }
       ]
     }
