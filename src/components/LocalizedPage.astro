@@ -2,7 +2,6 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
 import PageTitle from '@/components/PageTitle.astro';
-import ReleaseBadge from '@/components/ReleaseBadge.astro';
 import releases from '@/data/releases.generated.json';
 import { contact, links, product, repo } from '@/data/site';
 import { content, getPath, locales, type Locale, type PageKey } from '@/data/i18n';
@@ -44,31 +43,20 @@ const pageDescription = meta.metaDescription || undefined;
     <>
       <section class="hero">
         <div class="hero-copy">
-          <img class="hero-icon" src={pathTo('/brand/app-icon.png')} alt="Ícone do KPassword" width="76" height="76" />
-          <ReleaseBadge locale={locale} />
           <p class="label">{t.home.label}</p>
-          <h1>{product.name}</h1>
+          <h1>{t.home.title}</h1>
           <p class="lead">{t.home.lead}</p>
           <p class="hero-text">{t.home.text}</p>
           <div class="actions">
             <a class="button primary" href={pathTo(getPath(locale, 'download'))}>{t.home.primary}</a>
-            <a class="button secondary" href={pathTo(getPath(locale, 'security'))}>{t.home.secondary}</a>
+            <a class="button secondary" href={pathTo(getPath(locale, 'changelog'))}>{t.home.secondary}</a>
           </div>
-          <p class="fineprint">{repo.isConfigured ? t.home.fineprintConfigured : t.home.fineprintPending}</p>
         </div>
 
-        <div class="vault-card" aria-label={t.home.vaultAria}>
-          <div class="vault-top">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="vault-body">
-            <p>{t.home.vaultSmall}</p>
-            <h2>{t.home.vaultTitle}</h2>
-            <ul>
-              {t.home.vaultItems.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
-        </div>
+        <figure class="app-preview" aria-label={t.home.previewAria}>
+          <img src={pathTo('/images/kpassword-cofre-amostra.png')} alt={t.home.previewAlt} width="1534" height="1025" />
+          <figcaption>{t.home.previewCaption}</figcaption>
+        </figure>
       </section>
 
       <section class="section compact">
@@ -81,12 +69,24 @@ const pageDescription = meta.metaDescription || undefined;
         </div>
       </section>
 
-      <section class="section split-panel">
-        <div>
-          <p class="label">{t.home.transparencyLabel}</p>
-          <h2>{t.home.transparencyTitle}</h2>
+      <section class="section compact">
+        <div class="section-heading">
+          <p class="label">{t.home.workflowLabel}</p>
+          <h2>{t.home.workflowTitle}</h2>
         </div>
-        <p>{t.home.transparencyText}</p>
+        <div class="steps-grid">
+          {t.home.workflowSteps.map((step) => (
+            <article>
+              <span>{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section compact home-strip">
+        <p>{t.home.stripText}</p>
       </section>
     </>
   )}

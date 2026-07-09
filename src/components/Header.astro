@@ -40,21 +40,117 @@ const localeOptions = Object.values(locales).map((item) => {
   </nav>
 
   <div class="header-actions">
-    <label class="sr-only" for="language-switcher">{t.language.label}</label>
-    <select id="language-switcher" class="language-select" aria-label={t.language.aria} data-language-switcher>
-      {localeOptions.map((item) => (
-        <option value={item.href} selected={item.code === locale}>{item.label}</option>
-      ))}
-    </select>
+    <div class="language-picker" data-language-picker>
+      <button
+        class="language-button"
+        type="button"
+        aria-label={t.language.aria}
+        title={t.language.aria}
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-controls={`language-menu-${locale}`}
+        data-language-button
+      >
+        <span class="sr-only">{t.language.label}</span>
+        <svg class="language-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M3 12h18"></path>
+          <path d="M12 3c2.2 2.5 3.3 5.5 3.3 9S14.2 18.5 12 21"></path>
+          <path d="M12 3C9.8 5.5 8.7 8.5 8.7 12s1.1 6.5 3.3 9"></path>
+        </svg>
+      </button>
+      <div id={`language-menu-${locale}`} class="language-menu" role="listbox" aria-label={t.language.label} data-language-menu hidden>
+        {localeOptions.map((item) => (
+          <a
+            class:list={['language-option', item.code === locale && 'is-selected']}
+            href={item.href}
+            role="option"
+            aria-selected={item.code === locale ? 'true' : 'false'}
+            data-language-option
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
     <a class="header-cta" href={pathTo(getPath(locale, 'download'))}>{t.header.cta}</a>
   </div>
 </header>
 
 <script is:inline>
-  document.querySelectorAll('[data-language-switcher]').forEach((select) => {
-    select.addEventListener('change', (event) => {
-      const target = event.currentTarget;
-      if (target && target.value) window.location.href = target.value;
+  document.querySelectorAll('[data-language-picker]').forEach((picker) => {
+    const button = picker.querySelector('[data-language-button]');
+    const menu = picker.querySelector('[data-language-menu]');
+    const options = Array.from(picker.querySelectorAll('[data-language-option]'));
+
+    if (!button || !menu || !options.length) return;
+
+    const focusOption = (index) => {
+      const next = options[(index + options.length) % options.length];
+      if (next) next.focus();
+    };
+
+    const setOpen = (open) => {
+      menu.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+      picker.classList.toggle('is-open', open);
+    };
+
+    const openAndFocus = () => {
+      setOpen(true);
+      const selectedIndex = Math.max(0, options.findIndex((option) => option.getAttribute('aria-selected') === 'true'));
+      focusOption(selectedIndex);
+    };
+
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+      } else {
+        openAndFocus();
+      }
+    });
+
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openAndFocus();
+      }
+    });
+
+    options.forEach((option, index) => {
+      option.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setOpen(false);
+          button.focus();
+        }
+
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          focusOption(index + 1);
+        }
+
+        if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          focusOption(index - 1);
+        }
+
+        if (event.key === 'Home') {
+          event.preventDefault();
+          focusOption(0);
+        }
+
+        if (event.key === 'End') {
+          event.preventDefault();
+          focusOption(options.length - 1);
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!(event.target instanceof Node) || !picker.contains(event.target)) {
+        setOpen(false);
+      }
     });
   });
 </script>
